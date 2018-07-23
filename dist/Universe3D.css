@@ -8,8 +8,8 @@
 .container {
   display: inline-block;
   position: relative;
-  width: 75px;
-  height: 75px;
+  width: 60px;
+  height: 60px;
   margin: auto;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
@@ -23,41 +23,41 @@
   left: 0;
   right: 0;
   margin: auto;
-  width: 75px;
-  height: 75px;
-  line-height: 75px;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
   text-align: center;
   opacity: 0.9; }
 
 .container .f1 {
   background: red;
-  -webkit-transform: translateZ(37.5px);
-          transform: translateZ(37.5px); }
+  -webkit-transform: translateZ(30px);
+          transform: translateZ(30px); }
 
 .container .f2 {
   background: green;
-  -webkit-transform: translateZ(-37.5px) rotateY(180deg);
-          transform: translateZ(-37.5px) rotateY(180deg); }
+  -webkit-transform: translateZ(-30px) rotateY(180deg);
+          transform: translateZ(-30px) rotateY(180deg); }
 
 .container .f3 {
   background: yellow;
-  -webkit-transform: translateX(-37.5px) rotateY(-90deg);
-          transform: translateX(-37.5px) rotateY(-90deg); }
+  -webkit-transform: translateX(-30px) rotateY(-90deg);
+          transform: translateX(-30px) rotateY(-90deg); }
 
 .container .f4 {
   background: purple;
-  -webkit-transform: translateX(37.5px) rotateY(90deg);
-          transform: translateX(37.5px) rotateY(90deg); }
+  -webkit-transform: translateX(30px) rotateY(90deg);
+          transform: translateX(30px) rotateY(90deg); }
 
 .container .f5 {
   background: blue;
-  -webkit-transform: translateY(37.5px) rotateX(-90deg);
-          transform: translateY(37.5px) rotateX(-90deg); }
+  -webkit-transform: translateY(30px) rotateX(-90deg);
+          transform: translateY(30px) rotateX(-90deg); }
 
 .container .f6 {
   background: grey;
-  -webkit-transform: translateY(-37.5px) rotateX(90deg);
-          transform: translateY(-37.5px) rotateX(90deg); }
+  -webkit-transform: translateY(-30px) rotateX(90deg);
+          transform: translateY(-30px) rotateX(90deg); }
 
 @-webkit-keyframes run1 {
   0% {
@@ -243,12 +243,12 @@
 .title {
   display: inline-block;
   position: absolute;
-  top: 50px;
+  top: 2rem;
   left: 0px;
   right: 0px;
   width: 300px;
   margin: 0 auto;
-  font-size: 60px;
+  font-size: 4rem;
   line-height: 1.2em;
   text-align: center;
   color: white; }
@@ -259,7 +259,7 @@
   top: 50px;
   left: 50px;
   width: 300px;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.2em;
   text-align: left;
   color: white; }
@@ -271,7 +271,7 @@
   top: 130px;
   left: 50px;
   width: 200px;
-  font-size: 20px;
+  font-size: 1.5rem;
   line-height: 1.2em; }
 
 .hit {
@@ -281,7 +281,7 @@
   top: 170px;
   left: 50px;
   width: 200px;
-  font-size: 20px;
+  font-size: 1.5rem;
   line-height: 1.2em; }
 
 .score {
@@ -300,8 +300,8 @@
   color: yellow;
   top: 250px;
   left: 50px;
-  width: 200px;
-  font-size: 20px;
+  width: 220px;
+  font-size: 1.5rem;
   line-height: 1.2em; }
 
 .centerBlock {

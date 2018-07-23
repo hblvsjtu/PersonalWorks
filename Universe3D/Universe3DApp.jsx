@@ -170,16 +170,20 @@ class App extends React.Component {
 			a5 = Math.random();
 			arr[i] = [a0,a1,a2,a3,a4,a5];
 		}
-		this.setState({
-			list: arr,
-			num:0,
-			score:0,
-			target: 40,
-			min: 0,
-			sec: 0,
-			setTime:30,
-			success: "loading..."
-		});
+		this.setState(
+          	preState => {
+          		let target = preState.target + 20;
+				return {
+					list: arr,
+					num:0,
+					score:0,
+					target: target,
+					min: 0,
+					sec: 0,
+					setTime:30,
+					success: "loading..."
+				};
+          	})
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
 	    () => this.tick(),
@@ -210,8 +214,8 @@ class App extends React.Component {
 								top: window.innerHeight/2 * item[0] + window.innerHeight/4 + "px", 
 								left: window.innerWidth/2 * item[1] + window.innerHeight/4 + "px", 
 								perspective: 500 * item[2] + 500 + "px", 
-								height: "75px",
-								width: "75px",
+								height: "60px",
+								width: "60px",
 								transform: "scale(" + item[3] + ")"
 							}}>
 							<Universe3D id={"item_" + index} type={1 + parseInt(item[4]*3)} time={12*item[5]+12} direction={index%2==0?"normal":"alternate"}></Universe3D>
