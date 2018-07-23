@@ -83,49 +83,51 @@ class App extends React.Component {
 
 	  	// 事件代理
 	  	if(this.state.success == "loading...") {
-		    document.getElementById("item").addEventListener('click', (e) => {
-		    let tar = e.target.id;
-		  	if(tar.match(/^item_\d+\w$/)) {
-		  		if(!this.selected.hasOwnProperty(tar)) {
-		  			this.selected[tar] = tar;
-		  			document.getElementById(tar.slice(0,-1)).style.display = "none";
-		  			this.setState(preState => {
-		  				let number = preState.num + 1 ; 
-			  			let face = tar.slice(-1,tar.length);
-			  			console.log("face = ", face);
-			  			let score = preState.score;
-			  			switch(face) {
-			  				//前面
-			  				case "a" : 
-								score += 1;
-			  					break;
-			  				//后面
-			  				case "b" : 
-								score += 2;
-			  					break;
-			  				//左面
-			  				case "c" : 
-								score += 3;
-			  					break;
-			  				//右面
-			  				case "d" : 
-								score += 4;
-			  					break;
-			  				//上面
-			  				case "e" : 
-								score += 5;
-			  					break;
-			  				//下面
-			  				case "f" : 
-								score += 6;
-			  					break;
-			  				default:
-			  					break;
-			  			}
-		  				return {num: number, score: score}});
-		  		}
-		  	}
-		    }, true);
+	  		let f = (e) => {
+			    let tar = e.target.id;
+			  	if(tar.match(/^item_\d+\w$/)) {
+			  		if(!this.selected.hasOwnProperty(tar)) {
+			  			this.selected[tar] = tar;
+			  			document.getElementById(tar.slice(0,-1)).style.display = "none";
+			  			this.setState(preState => {
+			  				let number = preState.num + 1 ; 
+				  			let face = tar.slice(-1,tar.length);
+				  			console.log("face = ", face);
+				  			let score = preState.score;
+				  			switch(face) {
+				  				//前面
+				  				case "a" : 
+									score += 1;
+				  					break;
+				  				//后面
+				  				case "b" : 
+									score += 2;
+				  					break;
+				  				//左面
+				  				case "c" : 
+									score += 3;
+				  					break;
+				  				//右面
+				  				case "d" : 
+									score += 4;
+				  					break;
+				  				//上面
+				  				case "e" : 
+									score += 5;
+				  					break;
+				  				//下面
+				  				case "f" : 
+									score += 6;
+				  					break;
+				  				default:
+				  					break;
+				  			}
+			  				return {num: number, score: score}});
+			  		}
+			  	}
+		    }
+	  		document.getElementById("item").addEventListener('touchstart',f, true);
+		    document.getElementById("item").addEventListener('click',f, true);
 	  	}
 	}
 
