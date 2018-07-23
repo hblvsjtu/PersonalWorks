@@ -258,8 +258,8 @@
   position: absolute;
   top: 50px;
   left: 50px;
-  width: 400px;
-  font-size: 20px;
+  width: 300px;
+  font-size: 16px;
   line-height: 1.2em;
   text-align: left;
   color: white; }
@@ -268,40 +268,40 @@
   display: inline-block;
   position: absolute;
   color: red;
-  top: 140px;
+  top: 130px;
   left: 50px;
-  width: 300px;
-  font-size: 25px;
+  width: 200px;
+  font-size: 20px;
   line-height: 1.2em; }
 
 .hit {
   display: inline-block;
   position: absolute;
   color: red;
-  top: 190px;
+  top: 170px;
   left: 50px;
-  width: 300px;
-  font-size: 25px;
+  width: 200px;
+  font-size: 20px;
   line-height: 1.2em; }
 
 .score {
   display: inline-block;
   position: absolute;
   color: red;
-  top: 240px;
+  top: 210px;
   left: 50px;
-  width: 300px;
-  font-size: 25px;
+  width: 200px;
+  font-size: 20px;
   line-height: 1.2em; }
 
 .time {
   display: inline-block;
   position: absolute;
   color: yellow;
-  top: 290px;
+  top: 250px;
   left: 50px;
-  width: 300px;
-  font-size: 25px;
+  width: 200px;
+  font-size: 20px;
   line-height: 1.2em; }
 
 .centerBlock {
