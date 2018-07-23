@@ -19,9 +19,7 @@ module.exports = merge(common, {
       use: [
         // fallback to style-loader in development
         // style-loadercreates style nodes from JS strings
-        "style-loader",
-
-        {
+        "style-loader", {
           loader: 'css-loader',
           options: {
             sourceMap: true,
@@ -37,7 +35,6 @@ module.exports = merge(common, {
             }
           }
         },
-
         "sass-loader" // compiles Sass to CSS
       ]
     }, {
@@ -46,7 +43,7 @@ module.exports = merge(common, {
         "style-loader",
         "css-loader",
       ]
-    }]
+    }, ]
   },
 
   //插件的配置

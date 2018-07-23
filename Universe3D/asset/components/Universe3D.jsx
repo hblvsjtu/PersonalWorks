@@ -10,7 +10,7 @@ class Universe3D extends React.Component {
 
 	render() {
 		return (
-			<div className="container" style={{animation: "run " + this.props.time +"s infinite " + this.props.direction}}>
+			<div className="container" style={{animation: "run" + this.props.type + " "+ this.props.time +"s linear infinite " + this.props.direction}}>
 				<div className="f1">前</div>
 				<div className="f2">后</div>
 				<div className="f3">左</div>
