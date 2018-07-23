@@ -144,7 +144,7 @@ class App extends React.Component {
 			list: arr,
 			num:0,
 			score:0,
-			target: 30,
+			target: 10,
 			min: 0,
 			sec: 0,
 			setTime:90,
@@ -172,7 +172,7 @@ class App extends React.Component {
 			list: arr,
 			num:0,
 			score:0,
-			target: 50,
+			target: 20,
 			min: 0,
 			sec: 0,
 			setTime:90,
@@ -205,8 +205,8 @@ class App extends React.Component {
 					{this.state.list.map((item,index) => (
 						<div key={"item_" + index} style={{
 								position:"absolute", 
-								top: window.innerHeight * item[0] - 400 + "px", 
-								left: window.innerWidth * item[1] - 400 + "px", 
+								top: window.innerHeight/2 * item[0] + window.innerHeight/4 + "px", 
+								left: window.innerWidth/2 * item[1] + window.innerHeight/4 + "px", 
 								perspective: 500 * item[2] + 500 + "px", 
 								height: "50px",
 								width: "50px",
