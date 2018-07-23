@@ -7,7 +7,7 @@
  * @description: unversity style
  */
 
-$size: 50px;
+$size: 75px;
 
 .container {
 	display: inline-block;
@@ -16,7 +16,7 @@ $size: 50px;
 	height: $size;
 	margin: auto;
 	transform-style: preserve-3d;
-	animation: run1 16s linear infinite;
+	animation: run1 12s linear infinite;
 }
 .container div {
 	position: absolute;

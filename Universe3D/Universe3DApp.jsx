@@ -10,7 +10,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		let a0,a1,a2,a3,a4,a5,arr = [];
-		for(let i=0; i<20; i++) {
+		for(let i=0; i<25; i++) {
 			a0 = Math.random();
 			a1 = Math.random();
 			a2 = Math.random();
@@ -133,7 +133,7 @@ class App extends React.Component {
 
 	restart() {
 		let a0,a1,a2,a3,a4,a5,arr = [];
-		for(let i=0; i<50; i++) {
+		for(let i=0; i<25; i++) {
 			a0 = Math.random();
 			a1 = Math.random();
 			a2 = Math.random();
@@ -177,7 +177,7 @@ class App extends React.Component {
 			target: 40,
 			min: 0,
 			sec: 0,
-			setTime:60,
+			setTime:30,
 			success: "loading..."
 		});
 		clearInterval(this.timerID);
@@ -210,11 +210,11 @@ class App extends React.Component {
 								top: window.innerHeight/2 * item[0] + window.innerHeight/4 + "px", 
 								left: window.innerWidth/2 * item[1] + window.innerHeight/4 + "px", 
 								perspective: 500 * item[2] + 500 + "px", 
-								height: "50px",
-								width: "50px",
+								height: "75px",
+								width: "75px",
 								transform: "scale(" + item[3] + ")"
 							}}>
-							<Universe3D id={"item_" + index} type={1 + parseInt(item[4]*3)} time={16*item[5]+16} direction={index%2==0?"normal":"alternate"}></Universe3D>
+							<Universe3D id={"item_" + index} type={1 + parseInt(item[4]*3)} time={12*item[5]+12} direction={index%2==0?"normal":"alternate"}></Universe3D>
 						</div>
 					))}
 				</div>
