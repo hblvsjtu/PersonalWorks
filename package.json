@@ -20,7 +20,6 @@
   "homepage": "https://github.com/hblvsjtu/PersonalWorks#readme",
   "browserslist": [
     "defaults",
-    "not ie < 11",
     "last 2 versions",
     "> 1%",
     "iOS 7",

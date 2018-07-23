@@ -23,10 +23,10 @@ class App extends React.Component {
 			list: arr,
 			num:0,
 			score:0,
-			target: 30,
+			target: 20,
 			min: 0,
 			sec: 0,
-			setTime:90,
+			setTime:30,
 			success: "loading..."
 		};
 		this.selected={};
@@ -133,7 +133,7 @@ class App extends React.Component {
 
 	restart() {
 		let a0,a1,a2,a3,a4,a5,arr = [];
-		for(let i=0; i<20; i++) {
+		for(let i=0; i<50; i++) {
 			a0 = Math.random();
 			a1 = Math.random();
 			a2 = Math.random();
@@ -146,10 +146,10 @@ class App extends React.Component {
 			list: arr,
 			num:0,
 			score:0,
-			target: 10,
+			target: 20,
 			min: 0,
 			sec: 0,
-			setTime:90,
+			setTime:30,
 			success: "loading..."
 		});
 		clearInterval(this.timerID);
@@ -174,10 +174,10 @@ class App extends React.Component {
 			list: arr,
 			num:0,
 			score:0,
-			target: 20,
+			target: 40,
 			min: 0,
 			sec: 0,
-			setTime:90,
+			setTime:60,
 			success: "loading..."
 		});
 		clearInterval(this.timerID);
