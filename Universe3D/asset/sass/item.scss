@@ -7,6 +7,20 @@
  * @description: item style
  */
 
+.title {
+	display: inline-block; 
+	position: absolute;
+	top: 50px;
+	left: 0px; 
+	right: 0px;
+	width: 300px; 
+	margin: 0 auto;
+	font-size: 60px;
+	line-height: 1.2em;
+	text-align: center;
+	color: white;
+}
+
 .description {
 	display: inline-block; 
 	position: absolute;
@@ -19,7 +33,7 @@
 	color:white;
 }
 
-.hit {
+.target {
 	display: inline-block;
 	position: absolute;
 	color: red;
@@ -30,11 +44,33 @@
 	line-height: 1.2em;
 }
 
-.score {
+.hit {
 	display: inline-block;
 	position: absolute;
 	color: red;
 	top: 120px;
+	left: 50px;
+	width: 200px;
+	font-size: 20px;
+	line-height: 1.2em;
+}
+
+.score {
+	display: inline-block;
+	position: absolute;
+	color: red;
+	top: 160px;
+	left: 50px;
+	width: 200px;
+	font-size: 20px;
+	line-height: 1.2em;
+}
+
+.time {
+	display: inline-block;
+	position: absolute;
+	color: yellow;
+	top: 200px;
 	left: 50px;
 	width: 200px;
 	font-size: 20px;
@@ -50,4 +86,26 @@
 	margin: auto;
 	perspective: 1000px; 
 	transform: scale(2);
+}
+
+.fail, .success{
+	position: fixed; 
+	height: 100%; 
+	width: 100%; 
+	background: rgba(0,0,0,0.5); 
+	z-index:2;
+	p {
+		display: inline-block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 500px;
+		height: 300px;
+		margin-left: -250px;
+		margin-top: -150px;
+		font-size: 60px;
+		line-height: 100px;
+		color: red;
+		vertical-align: middle;
+	}
 }

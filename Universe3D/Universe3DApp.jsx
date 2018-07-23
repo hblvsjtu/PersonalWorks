@@ -9,19 +9,29 @@ class App extends React.Component {
 
 	constructor(props) {
 		super(props);
-		let a0 = Math.random();
-		let a1 = Math.random();
-		let a2 = Math.random();
-		let a3 = Math.random();
-		let a4 = Math.random();
-		let a5 = Math.random();
-		let arr = [a0,a1,a2,a3,a4,a5];
+		let a0,a1,a2,a3,a4,a5,arr = [];
+		for(let i=0; i<20; i++) {
+			a0 = Math.random();
+			a1 = Math.random();
+			a2 = Math.random();
+			a3 = Math.random();
+			a4 = Math.random();
+			a5 = Math.random();
+			arr[i] = [a0,a1,a2,a3,a4,a5];
+		}
 		this.state = {
-			list: [arr],
+			list: arr,
 			num:0,
-			score:0
+			score:0,
+			target: 30,
+			min: 0,
+			sec: 0,
+			setTime:90,
+			success: "loading..."
 		};
 		this.selected={};
+		this.restart = this.restart.bind(this);
+		this.next = this.next.bind(this);
 	}
 
 
@@ -37,13 +47,10 @@ class App extends React.Component {
 	}
 	
 	tick() {
-
 		// 释放飞机
 	  	this.setState(
           	preState => {
-	          	if(preState.list.length == 50) {
-	          		clearInterval(this.timerID);
-	          	}else {
+	          	if(!preState.list.length == 90) {
 	          		let a0 = Math.random();
 	          		let a1 = Math.random();
 	          		let a2 = Math.random();
@@ -56,81 +63,182 @@ class App extends React.Component {
           	}
 	  	);
 
+
+		// 判断是否成功
+	  	this.setState(
+          	preState => {
+          		let setTime = preState.setTime - 1 < 0 ? 0: preState.setTime - 1;
+          		let min, sec;
+          		let success = "loading...";
+          		if (setTime == 0) {
+				 	success = (preState.score < preState.target)? "fail" : "success";
+				 	clearInterval(this.timerID);
+          		}
+				min = parseInt(setTime / 60);
+				sec = setTime % 60;
+				min = min < 10 ? "0" + min : min;
+				sec = sec < 10 ? "0" + sec : sec;
+				return {min: min, sec: sec, setTime: setTime, success: success};
+          	})
+
 	  	// 事件代理
-	    document.getElementById("item").addEventListener('click', (e) => {
-	    let tar = e.target.id;
-	  	if(tar.match(/^item_\d+\w$/)) {
-	  		if(!this.selected.hasOwnProperty(tar)) {
-	  			this.selected[tar] = tar;
-	  			document.getElementById(tar.slice(0,-1)).style.display = "none";
-	  			this.setState(preState => {
-	  				let number = preState.num + 1 ; 
-		  			let face = tar.slice(-1,tar.length);
-		  			console.log("face = ", face);
-		  			let score = preState.score;
-		  			switch(face) {
-		  				//前面
-		  				case "a" : 
-							score += 1;
-		  					break;
-		  				//后面
-		  				case "b" : 
-							score += 2;
-		  					break;
-		  				//左面
-		  				case "c" : 
-							score += 3;
-		  					break;
-		  				//右面
-		  				case "d" : 
-							score += 4;
-		  					break;
-		  				//上面
-		  				case "e" : 
-							score += 5;
-		  					break;
-		  				//下面
-		  				case "f" : 
-							score += 6;
-		  					break;
-		  				default:
-		  					break;
-		  			}
-	  				return {num: number, score: score}});
-	  		}
+	  	if(this.state.success == "loading...") {
+		    document.getElementById("item").addEventListener('click', (e) => {
+		    let tar = e.target.id;
+		  	if(tar.match(/^item_\d+\w$/)) {
+		  		if(!this.selected.hasOwnProperty(tar)) {
+		  			this.selected[tar] = tar;
+		  			document.getElementById(tar.slice(0,-1)).style.display = "none";
+		  			this.setState(preState => {
+		  				let number = preState.num + 1 ; 
+			  			let face = tar.slice(-1,tar.length);
+			  			console.log("face = ", face);
+			  			let score = preState.score;
+			  			switch(face) {
+			  				//前面
+			  				case "a" : 
+								score += 1;
+			  					break;
+			  				//后面
+			  				case "b" : 
+								score += 2;
+			  					break;
+			  				//左面
+			  				case "c" : 
+								score += 3;
+			  					break;
+			  				//右面
+			  				case "d" : 
+								score += 4;
+			  					break;
+			  				//上面
+			  				case "e" : 
+								score += 5;
+			  					break;
+			  				//下面
+			  				case "f" : 
+								score += 6;
+			  					break;
+			  				default:
+			  					break;
+			  			}
+		  				return {num: number, score: score}});
+		  		}
+		  	}
+		    }, true);
 	  	}
-	    }, true);
+	}
+
+	restart() {
+		let a0,a1,a2,a3,a4,a5,arr = [];
+		for(let i=0; i<20; i++) {
+			a0 = Math.random();
+			a1 = Math.random();
+			a2 = Math.random();
+			a3 = Math.random();
+			a4 = Math.random();
+			a5 = Math.random();
+			arr[i] = [a0,a1,a2,a3,a4,a5];
+		}
+		this.setState({
+			list: arr,
+			num:0,
+			score:0,
+			target: 30,
+			min: 0,
+			sec: 0,
+			setTime:90,
+			success: "loading..."
+		});
+		clearInterval(this.timerID);
+		this.timerID = setInterval(
+	    () => this.tick(),
+	    1000
+	  );
+	}
+
+	next() {
+		let a0,a1,a2,a3,a4,a5,arr = [];
+		for(let i=0; i<20; i++) {
+			a0 = Math.random();
+			a1 = Math.random();
+			a2 = Math.random();
+			a3 = Math.random();
+			a4 = Math.random();
+			a5 = Math.random();
+			arr[i] = [a0,a1,a2,a3,a4,a5];
+		}
+		this.setState({
+			list: arr,
+			num:0,
+			score:0,
+			target: 50,
+			min: 0,
+			sec: 0,
+			setTime:90,
+			success: "loading..."
+		});
+		clearInterval(this.timerID);
+		this.timerID = setInterval(
+	    () => this.tick(),
+	    1000
+	  );
 	}
 
 
 	render() {
-		
-		return (
-			<div id="item">
-				<p className="description">比赛说明
-					<br></br>击中“前”，“后”，“左”，“右”，“上”，“下”
-					<br></br>分别获得1，2，3，4，5，6分
-				</p>
-				<h1 className="hit">已经击中 {this.state.num} 架飞机</h1>
-				<h1 className="score">一共获得 {this.state.score} 分</h1>
-				<div className="centerBlock">
-					<Universe3D></Universe3D>
-				</div>
-				{this.state.list.map((item,index) => (
-					<div key={"item_" + index} style={{
-							position:"absolute", 
-							top: window.innerHeight * item[0] - 400 + "px", 
-							left: window.innerWidth * item[1] - 400 + "px", 
-							perspective: 500 * item[2] + 500 + "px", 
-							height: "50px",
-							width: "50px",
-							transform: "scale(" + item[3] + ")"
-						}}>
-						<Universe3D id={"item_" + index} type={1 + parseInt(item[4]*3)} time={16*item[5]+16} direction={index%2==0?"normal":"alternate"}></Universe3D>
+		if (this.state.success == "loading...") {
+			return (
+				<div id="item">
+					<header className="title">星际争霸</header>
+					<p className="description">比赛说明
+						<br></br>击中“前”，“后”，“左”，“右”，“上”，“下”
+						<br></br>分别获得1，2，3，4，5，6分
+					</p>
+					<h1 className="target">目标 {this.state.target} 分</h1>
+					<h1 className="hit">已经击中 {this.state.num} 架UFO</h1>
+					<h1 className="score">一共获得 {this.state.score} 分</h1>
+					<h1 className="time">剩余时间: {this.state.min} 分 {this.state.sec} 秒 {this.state.success}</h1>
+					<div className="centerBlock">
+						<Universe3D></Universe3D>
 					</div>
-				))}
-			</div>
-		);}
+					{this.state.list.map((item,index) => (
+						<div key={"item_" + index} style={{
+								position:"absolute", 
+								top: window.innerHeight * item[0] - 400 + "px", 
+								left: window.innerWidth * item[1] - 400 + "px", 
+								perspective: 500 * item[2] + 500 + "px", 
+								height: "50px",
+								width: "50px",
+								transform: "scale(" + item[3] + ")"
+							}}>
+							<Universe3D id={"item_" + index} type={1 + parseInt(item[4]*3)} time={16*item[5]+16} direction={index%2==0?"normal":"alternate"}></Universe3D>
+						</div>
+					))}
+				</div>
+			);
+		}else if(this.state.success == "fail"){
+			return (
+				<div className="fail">
+					<p> 挑战失败！
+						<br></br>
+						<button onClick={this.restart}>重新开始</button>
+					</p>
+				</div>
+			)
+		}
+		else if(this.state.success == "success"){
+			return (
+				<div className="success">
+					<p> 恭喜，挑战成功！
+						<br></br>
+						<button onClick={this.next}>闯下一关</button>
+						<button onClick={this.restart}>重新开始</button>
+					</p>
+				</div>
+			)
+		}
+	}	
 }
 
 // App.protoTypes = {
