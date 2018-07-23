@@ -28,7 +28,8 @@ class App extends React.Component {
 			sec: 0,
 			setTime:30,
 			success: "loading...",
-			order: 1
+			order: 1,
+			speed:12
 		};
 		this.selected={};
 		this.restart = this.restart.bind(this);
@@ -152,7 +153,8 @@ class App extends React.Component {
 			sec: 0,
 			setTime:30,
 			success: "loading...",
-			order: 1
+			order: 1,
+			speed:12
 		});
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
@@ -176,6 +178,7 @@ class App extends React.Component {
           	preState => {
           		let target = preState.target + 20;
           		let order = preState.order + 1;
+          		let speed = preState.speed - 1;
 				return {
 					list: arr,
 					num:0,
@@ -185,7 +188,8 @@ class App extends React.Component {
 					sec: 0,
 					setTime:30,
 					success: "loading...",
-					order: order
+					order: order,
+					speed: speed
 				};
           	})
 		clearInterval(this.timerID);
@@ -222,7 +226,7 @@ class App extends React.Component {
 								width: "60px",
 								transform: "scale(" + item[3] + ")"
 							}}>
-							<Universe3D id={"item_" + index} type={1 + parseInt(item[4]*3)} time={12*item[5]+12} direction={index%2==0?"normal":"alternate"}></Universe3D>
+							<Universe3D id={"item_" + index} type={1 + parseInt(item[4]*3)} time={this.state.speed *item[5]+ this.state.speed} direction={index%2==0?"normal":"alternate"}></Universe3D>
 						</div>
 					))}
 				</div>

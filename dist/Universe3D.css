@@ -272,7 +272,8 @@
   left: 10px;
   width: 300px;
   font-size: 1.5rem;
-  line-height: 1.2em; }
+  line-height: 1.2em;
+  text-align: left; }
 
 .hit {
   display: inline-block;
@@ -282,7 +283,8 @@
   left: 10px;
   width: 300px;
   font-size: 1.5rem;
-  line-height: 1.2em; }
+  line-height: 1.2em;
+  text-align: left; }
 
 .score {
   display: inline-block;
@@ -291,8 +293,9 @@
   top: 250px;
   left: 50px;
   width: 300px;
-  font-size: 20px;
-  line-height: 1.2em; }
+  font-size: 1.5rem;
+  line-height: 1.2em;
+  text-align: left; }
 
 .time {
   display: inline-block;
@@ -302,7 +305,8 @@
   left: 10px;
   width: 250px;
   font-size: 1.5rem;
-  line-height: 1.2em; }
+  line-height: 1.2em;
+  text-align: left; }
 
 .centerBlock {
   position: absolute;
