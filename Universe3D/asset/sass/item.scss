@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Lvhongbin (hblvsjtu@163.com)
+ * @date    2018-07-22 09:29:54
+ * @version V0.0.1
+ * @description: item style
+ */
+
+.description {
+	display: inline-block; 
+	position: absolute;
+	top: 0px;
+	left: 50px; 
+	width: 300px; 
+	font-size: 16px;
+	line-height: 1.2em;
+	text-align: left;
+	color:white;
+}
+
+.hit {
+	display: inline-block;
+	position: absolute;
+	color: red;
+	top: 80px;
+	left: 50px;
+	width: 200px;
+	font-size: 20px;
+	line-height: 1.2em;
+}
+
+.score {
+	display: inline-block;
+	position: absolute;
+	color: red;
+	top: 120px;
+	left: 50px;
+	width: 200px;
+	font-size: 20px;
+	line-height: 1.2em;
+}
+
+.centerBlock {
+	position: absolute;
+	top: 0;
+	bottom: 0; 
+	left: 0; 
+	right: 0;
+	margin: auto;
+	perspective: 1000px; 
+	transform: scale(2);
+}
