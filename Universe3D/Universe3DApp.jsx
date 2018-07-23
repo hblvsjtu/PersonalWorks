@@ -27,7 +27,8 @@ class App extends React.Component {
 			min: 0,
 			sec: 0,
 			setTime:30,
-			success: "loading..."
+			success: "loading...",
+			order: 1
 		};
 		this.selected={};
 		this.restart = this.restart.bind(this);
@@ -150,7 +151,8 @@ class App extends React.Component {
 			min: 0,
 			sec: 0,
 			setTime:30,
-			success: "loading..."
+			success: "loading...",
+			order: 1
 		});
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
@@ -173,6 +175,7 @@ class App extends React.Component {
 		this.setState(
           	preState => {
           		let target = preState.target + 20;
+          		let order = preState.order + 1;
 				return {
 					list: arr,
 					num:0,
@@ -181,7 +184,8 @@ class App extends React.Component {
 					min: 0,
 					sec: 0,
 					setTime:30,
-					success: "loading..."
+					success: "loading...",
+					order: order
 				};
           	})
 		clearInterval(this.timerID);
@@ -201,7 +205,7 @@ class App extends React.Component {
 						<br></br>击中“前”，“后”，“左”，“右”，“上”，“下”
 						<br></br>分别获得1，2，3，4，5，6分
 					</p>
-					<h1 className="target">目标 {this.state.target} 分</h1>
+					<h1 className="target">第{this.state.order}关 目标 {this.state.target} 分</h1>
 					<h1 className="hit">已经击中 {this.state.num} 架UFO</h1>
 					<h1 className="score">一共获得 {this.state.score} 分</h1>
 					<h1 className="time">剩余时间: {this.state.min} 分 {this.state.sec} 秒 {this.state.success}</h1>
