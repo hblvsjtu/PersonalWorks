@@ -1,0 +1,70 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Lvhongbin (hblvsjtu@163.com)
+ * @date    2018-07-22 09:29:54
+ * @version V0.0.1
+ * @description: unversity style
+ */
+
+$size: 200px;
+
+.container {
+	display: inline-block;
+	position: relative;
+	width: $size;
+	height: $size;
+	margin: auto;
+	transform-style: preserve-3d;
+	animation: run 8s;
+	animation-iteration-count: infinite;
+	z-index:2;
+}
+.container div {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: $size;
+	height: $size;
+	line-height: $size;
+	text-align: center;
+	opacity: 0.9;
+} 
+.container .f1 {
+	background: red;
+	transform: translateZ($size / 2);
+}
+.container .f2 {
+	background: green;
+	transform: translateZ(- $size / 2) rotateY(180deg);
+}
+.container .f3 {
+	background: yellow;
+	transform: translateX(- $size / 2) rotateY(-90deg) ;
+}
+.container .f4 {
+	background: purple;
+	transform: translateX($size / 2) rotateY(90deg) ;
+}
+.container .f5 {
+	background: blue;
+	transform: translateY($size / 2) rotateX(-90deg) ;
+}
+.container .f6 {
+	background: grey;
+	transform: translateY(- $size / 2) rotateX(90deg) ;
+}
+
+@keyframes run{
+	0% {transform: rotateX(0deg) rotateY(0deg);}
+	14.3% {transform: rotateX(45deg) rotateY(45deg);}
+	28.6% {transform: rotateX(90deg) rotateY(90deg);}
+	42.9% {transform: rotateX(180deg) rotateY(180deg);}
+	57.1% {transform: rotateX(225deg) rotateY(225deg);}
+	71.4% {transform: rotateX(270deg) rotateY(270deg);}
+	85.7% {transform: rotateX(315deg) rotateY(315deg);}
+	100% {transform: rotateX(360deg) rotateY(360deg);}
+}
