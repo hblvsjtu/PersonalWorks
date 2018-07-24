@@ -12,6 +12,8 @@ module.exports = merge(common, {
   devServer: {
     contentBase: './dist',
     hot: true,
+    // host:’127.0.0.1’, 
+    port: 8081
   },
   module: {
     rules: [{

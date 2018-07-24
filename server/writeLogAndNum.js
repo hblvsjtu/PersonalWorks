@@ -45,7 +45,7 @@ function writeLogAndNum(log, append, visitorNum) {
 
 		//readMyData(fd);
 		console.log('文件可读' + fd);
-		append = `访问时间：${getNowFormatDate()}\n\r${append}\n\r\n\r`;
+		append = `访问时间：${getNowFormatDate()}\r\n${append}\r\n\r\n`;
 		fs.appendFile(log, append, function() {
 			console.log('追加内容完成');
 		});

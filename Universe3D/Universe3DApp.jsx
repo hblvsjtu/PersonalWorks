@@ -30,7 +30,8 @@ class App extends React.Component {
 			setTime:30,
 			success: "loading",
 			order: 1,
-			speed:12
+			speed:12,
+			visitorNum:0
 		};
 		this.selected={};
 		this.restart = this.restart.bind(this);
@@ -47,6 +48,17 @@ class App extends React.Component {
 	    () => this.tick(),
 	    1000
 	  );
+	  let xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft XMLHttp");
+	  xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
+
+	  xhr.onreadystatechange = function() {
+  	  	if (xhr.readyState==4 && xhr.status==200) {
+  	  		let responseText = xhr.responseText;
+  			this.setState({visitorNum: responseText});
+  	  	}
+	  }
+	  
+	  xhr.send();
 	}
 	
 	tick() {
@@ -157,7 +169,8 @@ class App extends React.Component {
 			setTime:30,
 			success: "loading",
 			order: 1,
-			speed:12
+			speed:12,
+			visitorNum:0
 		});
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
@@ -182,6 +195,7 @@ class App extends React.Component {
           		let target = preState.target + 20;
           		let order = preState.order + 1;
           		let speed = preState.speed - 1;
+          		let visitorNum = preState.visitorNum - 1;
 				return {
 					list: arr,
 					num:0,
@@ -190,9 +204,10 @@ class App extends React.Component {
 					min: 0,
 					sec: 0,
 					setTime:30,
-					success: "loading...",
+					success: "loading",
 					order: order,
-					speed: speed
+					speed: speed,
+					visitorNum:visitorNum
 				};
           	})
 		clearInterval(this.timerID);
@@ -216,6 +231,7 @@ class App extends React.Component {
 					<h1 className="hit">已经击中 {this.state.num} 架UFO</h1>
 					<h1 className="score">一共获得 {this.state.score} 分</h1>
 					<h1 className="time">剩余时间: {this.state.min} 分 {this.state.sec} 秒 {this.state.success}</h1>
+					<h1 className="visitorNum">访问总人数: {this.state.visitorNum}</h1>
 					<div className="centerBlock">
 						<Universe3D></Universe3D>
 					</div>
