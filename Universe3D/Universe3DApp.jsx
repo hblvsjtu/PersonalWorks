@@ -36,7 +36,7 @@ class App extends React.Component {
 		this.selected={};
 		this.restart = this.restart.bind(this);
 		this.next = this.next.bind(this);
-		this.res = this.res.bind(this);
+		this.restext = this.restext.bind(this);
 	}
 
 
@@ -63,13 +63,13 @@ class App extends React.Component {
 	  xhr.onreadystatechange = function() {
   	  	if (xhr.readyState==4 && xhr.status==200) {
   	  		let responseText = xhr.responseText;
-  			this.res(responseText);
+  			this.restext(responseText);
   	  	}
 	  }
 	  xhr.send();
 	}
 	
-	res(responseText) {
+	restext(responseText) {
   		this.setState({visitorNum: responseText});
 	}
 
