@@ -18,7 +18,7 @@
 	font-size: 4rem;
 	line-height: 1.2em;
 	text-align: center;
-	color: white;
+	color: rgba(255,255,255,0.75);
 }
 
 .description {
@@ -30,7 +30,7 @@
 	font-size: 1rem;
 	line-height: 1.2em;
 	text-align: left;
-	color:white;
+	color: rgba(255,255,255,0.75);
 }
 
 .target,  .hit , .score {
@@ -38,23 +38,23 @@
 	position: absolute;
 	color: red;
 	top: 100px;
-	right: 10px; 
+	left: 10px; 
 	width: 300px;
-	font-size: 1.5rem;
+	font-size: 1rem;
 	line-height: 1.2em;
 	text-align: left;
 }
 
 .target {
-	top: 50px;
+	top: 110px;
 }
 
 .hit {
-	top: 100px;
+	top: 135px;
 }
 
 .score {
-	top: 150px;
+	top: 160px;
 }
 
 .time {
