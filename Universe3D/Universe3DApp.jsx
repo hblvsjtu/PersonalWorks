@@ -50,7 +50,15 @@ class App extends React.Component {
 	    1000
 	  );
 
-	  let xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft XMLHttp");
+	  var xhr;
+	  if (window.XMLHttpRequest)
+	    {// code for IE7+, Firefox, Chrome, Opera, Safari
+	    xhr=new XMLHttpRequest();
+	    }
+	  else
+	    {// code for IE6, IE5
+	    xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	    }
 	  xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
 	  xhr.onreadystatechange = function() {
   	  	if (xhr.readyState==4 && xhr.status==200) {
