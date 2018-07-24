@@ -36,7 +36,7 @@ class App extends React.Component {
 		this.selected={};
 		this.restart = this.restart.bind(this);
 		this.next = this.next.bind(this);
-		this.restext = this.restext.bind(this);
+		const self = this;
 	}
 
 
@@ -45,33 +45,29 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-	  this.timerID = setInterval(
-	    () => this.tick(),
-	    1000
-	  );
+	  	this.timerID = setInterval(
+	    	() => this.tick(),
+	    	1000
+	  	);
 
-	  var xhr;
-	  if (window.XMLHttpRequest)
-	    {// code for IE7+, Firefox, Chrome, Opera, Safari
-	    xhr=new XMLHttpRequest();
-	    }
-	  else
-	    {// code for IE6, IE5
-	    xhr=new ActiveXObject("Microsoft.XMLHTTP");
-	    }
-	  xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
-	  xhr.onreadystatechange = function() {
-  	  	if (xhr.readyState==4 && xhr.status==200) {
-  	  		let responseText = xhr.responseText;
-  			this.restext(responseText);
-  	  	}
-	  }
-	  xhr.send();
+		let xhr;
+		if (window.XMLHttpRequest) {
+		  	// code for IE7+, Firefox, Chrome, Opera, Safari
+		    xhr=new XMLHttpRequest();
+		} else{
+		    // code for IE6, IE5
+		    xhr=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
+		xhr.onreadystatechange = function() {
+	  	  	if (xhr.readyState==4 && xhr.status==200) {
+	  	  		let responseText = xhr.responseText;
+	  			self.setState({visitorNum: responseText});
+	  	  	}
+		}
+	  	xhr.send();
 	}
 	
-	restext(responseText) {
-  		this.setState({visitorNum: responseText});
-	}
 
 	tick() {
 		// 释放飞机
