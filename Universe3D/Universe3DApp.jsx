@@ -36,6 +36,7 @@ class App extends React.Component {
 		this.selected={};
 		this.restart = this.restart.bind(this);
 		this.next = this.next.bind(this);
+		this.res = this.res.bind(this);
 	}
 
 
@@ -48,19 +49,20 @@ class App extends React.Component {
 	    () => this.tick(),
 	    1000
 	  );
+
 	  let xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft XMLHttp");
 	  xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
-
-	  xhr.onreadystatechange = function() {
+	  xhr.onreadystatechange = this.res;
+	  xhr.send();
+	}
+	
+	res() {
   	  	if (xhr.readyState==4 && xhr.status==200) {
   	  		let responseText = xhr.responseText;
   			this.setState({visitorNum: responseText});
   	  	}
-	  }
-	  
-	  xhr.send();
 	}
-	
+
 	tick() {
 		// 释放飞机
 	  	this.setState(

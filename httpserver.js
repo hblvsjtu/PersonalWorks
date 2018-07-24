@@ -156,7 +156,7 @@
  		// 记录访问日志和人数
  		// 验证文件的可读可写行
  		if (htmlFlag) {
- 			console.log("实时人数：", writeLogAndNum(log, append, visitorNum));
+ 			writeLogAndNum(log, append, visitorNum);
  		}
  	}
 
