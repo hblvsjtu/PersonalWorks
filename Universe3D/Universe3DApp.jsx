@@ -36,7 +36,6 @@ class App extends React.Component {
 		this.selected={};
 		this.restart = this.restart.bind(this);
 		this.next = this.next.bind(this);
-		const self = this;
 	}
 
 
@@ -49,7 +48,7 @@ class App extends React.Component {
 	    	() => this.tick(),
 	    	1000
 	  	);
-
+		const self = this;
 		let xhr;
 		if (window.XMLHttpRequest) {
 		  	// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -62,6 +61,7 @@ class App extends React.Component {
 		xhr.onreadystatechange = function() {
 	  	  	if (xhr.readyState==4 && xhr.status==200) {
 	  	  		let responseText = xhr.responseText;
+	  	  		console.log("responseText = ",responseText);
 	  			self.setState({visitorNum: responseText});
 	  	  	}
 		}
