@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 // import PropTypes from 'prop-types';
 import Universe3D from './asset/components/Universe3D.jsx';
 import Universe3Dbg from './asset/img/university.jpg';
+import Universe3Dbg_mobile from './asset/img/university_mobile.jpg';
 import './asset/sass/item.scss';
 
 class App extends React.Component {
@@ -271,8 +272,14 @@ div.style.textAlign ="center";
 // div.style.lineHeight = "100%";
 div.style.height = "100%";
 div.style.width = "100%";
-div.style.background = `url("${Universe3Dbg}")`;
-div.style.backgroundSize = "contain";
-div.style.backgroundPosition = "center";
+if (window.innerWidth > 800) {
+	div.style.background = `url("${Universe3Dbg}")`;
+	div.style.backgroundSize = "contain";
+	div.style.backgroundPosition = "center";
+}else {
+	div.style.background = `url("${Universe3Dbg_mobile}")`;
+	div.style.backgroundSize = "contain";
+	div.style.backgroundPosition = "center";
+}
 document.body.appendChild(div);
 ReactDOM.render(<App />, div);
