@@ -48,24 +48,6 @@ class App extends React.Component {
 	    	() => this.tick(),
 	    	1000
 	  	);
-		const self = this;
-		let xhr;
-		if (window.XMLHttpRequest) {
-		  	// code for IE7+, Firefox, Chrome, Opera, Safari
-		    xhr=new XMLHttpRequest();
-		} else{
-		    // code for IE6, IE5
-		    xhr=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
-		xhr.onreadystatechange = function() {
-	  	  	if (xhr.readyState==4 && xhr.status==200) {
-	  	  		let responseText = xhr.responseText;
-	  	  		console.log("responseText = ",responseText);
-	  			self.setState({visitorNum: responseText});
-	  	  	}
-		}
-	  	xhr.send();
 	}
 	
 
@@ -86,6 +68,27 @@ class App extends React.Component {
           	}
 	  	);
 
+		// 每10秒获取一次总访问人数
+		if (this.state.sec%10 == 0) {
+			const self = this;
+			let xhr;
+			if (window.XMLHttpRequest) {
+			  	// code for IE7+, Firefox, Chrome, Opera, Safari
+			    xhr=new XMLHttpRequest();
+			} else{
+			    // code for IE6, IE5
+			    xhr=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
+			xhr.onreadystatechange = function() {
+		  	  	if (xhr.readyState==4 && xhr.status==200) {
+		  	  		let responseText = xhr.responseText;
+		  	  		console.log("responseText = ",responseText);
+		  			self.setState({visitorNum: responseText});
+		  	  	}
+			}
+		  	xhr.send();
+		}
 
 		// 判断是否成功
 	  	this.setState(
