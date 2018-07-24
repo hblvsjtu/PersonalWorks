@@ -1,0 +1,40 @@
+访问时间：2018-07-24 18:34:23
+host = localhost:8080
+connection = keep-alive
+cache-control = max-age=0
+upgrade-insecure-requests = 1
+user-agent = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+accept = text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+accept-encoding = gzip, deflate, br
+accept-language = en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+cookie = io=Ve1OhLqrCjyktgH0AAB3
+if-none-match = 739b0371ecf8613cdf4f52798ba5c16019f491fcf554eeb9bd5ecc4aee901b43
+
+
+访问时间：2018-07-24 18:35:20
+host = localhost:8080
+connection = keep-alive
+cache-control = max-age=0
+upgrade-insecure-requests = 1
+user-agent = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+accept = text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+accept-encoding = gzip, deflate, br
+accept-language = en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+cookie = io=Ve1OhLqrCjyktgH0AAB3
+if-none-match = 739b0371ecf8613cdf4f52798ba5c16019f491fcf554eeb9bd5ecc4aee901b43
+
+
+访问时间：2018-07-24 18:45:40
+host = localhost:8080
+connection = keep-alive
+cache-control = max-age=0
+upgrade-insecure-requests = 1
+user-agent = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+accept = text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+accept-encoding = gzip, deflate, br
+accept-language = en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+cookie = io=Ve1OhLqrCjyktgH0AAB3
+if-none-match = 739b0371ecf8613cdf4f52798ba5c16019f491fcf554eeb9bd5ecc4aee901b43
+
+
+
