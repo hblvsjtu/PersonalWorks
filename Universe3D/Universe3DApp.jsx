@@ -52,15 +52,17 @@ class App extends React.Component {
 
 	  let xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft XMLHttp");
 	  xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
-	  xhr.onreadystatechange = this.res;
+	  xhr.onreadystatechange = function() {
+  	  	if (xhr.readyState==4 && xhr.status==200) {
+  	  		let responseText = xhr.responseText;
+  			this.res(responseText);
+  	  	}
+	  }
 	  xhr.send();
 	}
 	
-	res() {
-  	  	if (xhr.readyState==4 && xhr.status==200) {
-  	  		let responseText = xhr.responseText;
-  			this.setState({visitorNum: responseText});
-  	  	}
+	res(responseText) {
+  		this.setState({visitorNum: responseText});
 	}
 
 	tick() {
