@@ -27,7 +27,7 @@ class App extends React.Component {
 			min: 0,
 			sec: 0,
 			setTime:30,
-			success: "loading...",
+			success: "loading",
 			order: 1,
 			speed:12
 		};
@@ -71,7 +71,7 @@ class App extends React.Component {
           	preState => {
           		let setTime = preState.setTime - 1 < 0 ? 0: preState.setTime - 1;
           		let min, sec;
-          		let success = "loading...";
+          		let success = "loading";
           		if (setTime == 0) {
 				 	success = (preState.score < preState.target)? "fail" : "success";
 				 	clearInterval(this.timerID);
@@ -80,11 +80,13 @@ class App extends React.Component {
 				sec = setTime % 60;
 				min = min < 10 ? "0" + min : min;
 				sec = sec < 10 ? "0" + sec : sec;
+				let k = sec%4;
+				for(let i=0; i<k; i++) success += ".";
 				return {min: min, sec: sec, setTime: setTime, success: success};
           	})
 
 	  	// 事件代理
-	  	if(this.state.success == "loading...") {
+	  	if(this.state.success.match(/^loading\.{0,3}$/)) {
 	  		let f = (e) => {
 			    let tar = e.target.id;
 			  	if(tar.match(/^item_\d+\w$/)) {
@@ -152,7 +154,7 @@ class App extends React.Component {
 			min: 0,
 			sec: 0,
 			setTime:30,
-			success: "loading...",
+			success: "loading",
 			order: 1,
 			speed:12
 		});
@@ -201,7 +203,7 @@ class App extends React.Component {
 
 
 	render() {
-		if (this.state.success == "loading...") {
+		if (this.state.success.match(/^loading\.{0,3}$/)) {
 			return (
 				<div id="item">
 					<header className="title">星际争霸</header>
@@ -209,7 +211,7 @@ class App extends React.Component {
 						<br></br>击中“前”，“后”，“左”，“右”，“上”，“下”
 						<br></br>分别获得1，2，3，4，5，6分
 					</p>
-					<h1 className="target">第{this.state.order}关 目标 {this.state.target} 分</h1>
+					<h1 className="target">第{this.state.order}关 目标：{this.state.target} 分 速度：{13-this.state.speed}</h1>
 					<h1 className="hit">已经击中 {this.state.num} 架UFO</h1>
 					<h1 className="score">一共获得 {this.state.score} 分</h1>
 					<h1 className="time">剩余时间: {this.state.min} 分 {this.state.sec} 秒 {this.state.success}</h1>
