@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import PropTypes from 'prop-types';
-import Universe3D from './asset/components/Universe3D.jsx';
+import Loading from './asset/components/Loading.jsx';
+import Success from './asset/components/Success.jsx';
+import Fail from './asset/components/Fail.jsx';
 import Universe3Dbg from './asset/img/university.jpg';
 import Universe3Dbg_mobile from './asset/img/university_mobile.jpg';
-import './asset/sass/item.scss';
+
 
 class App extends React.Component {
 
@@ -28,7 +30,7 @@ class App extends React.Component {
 			min: 0,
 			sec: 0,
 			setTime:30,
-			success: "loading",
+			status: "loading",
 			order: 1,
 			speed:12,
 			visitorNum:0
@@ -36,22 +38,41 @@ class App extends React.Component {
 		this.selected={};
 		this.restart = this.restart.bind(this);
 		this.next = this.next.bind(this);
+		this.createXHR = this.createXHR.bind(this);
+		this.setStatus = this.setStatus.bind(this);
 	}
 
 
 	componentWillUnmount() {
-	  clearInterval(this.timerID);
+	  clearInterval(this.timerID1);
+	  clearInterval(this.timerID2);
+	  clearInterval(this.timerID3);
 	}
 
 	componentDidMount() {
-	  	this.timerID = setInterval(
-	    	() => this.tick(),
+		this.xhr = this.createXHR();
+		this.timerID1 = setInterval(
+	    	() => this.setStatus(),
 	    	1000
+	  	);
+	  	this.timerID2 = setInterval(
+	    	() => this.FreeUFO(),
+	    	1000
+	  	);
+	  	// 每10秒获取一次总访问人数
+	  	this.xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
+		this.xhr.send();
+	  	this.timerID3 = setInterval(
+	    	() => {
+	    		this.xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
+		  		this.xhr.send();
+	    	},
+	    	10000
 	  	);
 	}
 	
-
-	tick() {
+	// free the UFO
+	FreeUFO() {
 		// 释放飞机
 	  	this.setState(
           	preState => {
@@ -67,37 +88,19 @@ class App extends React.Component {
 	          	}
           	}
 	  	);
+	}
 
-		// 每10秒获取一次总访问人数
-		if (this.state.sec%10 == 0) {
-			const self = this;
-			let xhr;
-			if (window.XMLHttpRequest) {
-			  	// code for IE7+, Firefox, Chrome, Opera, Safari
-			    xhr=new XMLHttpRequest();
-			} else{
-			    // code for IE6, IE5
-			    xhr=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
-			xhr.onreadystatechange = function() {
-		  	  	if (xhr.readyState==4 && xhr.status==200) {
-		  	  		let responseText = xhr.responseText;
-		  	  		console.log("responseText = ",responseText);
-		  			self.setState({visitorNum: responseText});
-		  	  	}
-			}
-		  	xhr.send();
-		}
 
+	// judge the status and calculate the score
+	setStatus() {
 		// 判断是否成功
 	  	this.setState(
           	preState => {
           		let setTime = preState.setTime - 1 < 0 ? 0: preState.setTime - 1;
           		let min, sec;
-          		let success = "loading";
+          		let status = "loading";
           		if (setTime == 0) {
-				 	success = (preState.score < preState.target)? "fail" : "success";
+				 	status = (preState.score < preState.target)? "fail" : "success";
 				 	clearInterval(this.timerID);
           		}
 				min = parseInt(setTime / 60);
@@ -105,12 +108,12 @@ class App extends React.Component {
 				min = min < 10 ? "0" + min : min;
 				sec = sec < 10 ? "0" + sec : sec;
 				let k = sec%4;
-				for(let i=0; i<k; i++) success += ".";
-				return {min: min, sec: sec, setTime: setTime, success: success};
+				for(let i=0; i<k; i++) status += ".";
+				return {min: min, sec: sec, setTime: setTime, status: status};
           	})
 
 	  	// 事件代理
-	  	if(this.state.success.match(/^loading\.{0,3}$/)) {
+	  	if(this.state.status.match(/^loading\.{0,3}$/)) {
 	  		let f = (e) => {
 			    let tar = e.target.id;
 			  	if(tar.match(/^item_\d+\w$/)) {
@@ -120,7 +123,6 @@ class App extends React.Component {
 			  			this.setState(preState => {
 			  				let number = preState.num + 1 ; 
 				  			let face = tar.slice(-1,tar.length);
-				  			console.log("face = ", face);
 				  			let score = preState.score;
 				  			switch(face) {
 				  				//前面
@@ -159,6 +161,7 @@ class App extends React.Component {
 	  	}
 	}
 
+	// restart the game
 	restart() {
 		let a0,a1,a2,a3,a4,a5,arr = [];
 		for(let i=0; i<25; i++) {
@@ -178,18 +181,19 @@ class App extends React.Component {
 			min: 0,
 			sec: 0,
 			setTime:30,
-			success: "loading",
+			status: "loading",
 			order: 1,
 			speed:12,
 			visitorNum:0
 		});
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
-	    () => this.tick(),
+	    () => this.FreeUFO(),
 	    1000
 	  );
 	}
 
+	// Next chanllege
 	next() {
 		let a0,a1,a2,a3,a4,a5,arr = [];
 		for(let i=0; i<20; i++) {
@@ -215,7 +219,7 @@ class App extends React.Component {
 					min: 0,
 					sec: 0,
 					setTime:30,
-					success: "loading",
+					status: "loading",
 					order: order,
 					speed: speed,
 					visitorNum:visitorNum
@@ -223,65 +227,39 @@ class App extends React.Component {
           	})
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
-	    () => this.tick(),
+	    () => this.FreeUFO(),
 	    1000
 	  );
 	}
 
+	// create the only one XMLHttpReaquest
+	createXHR() {
+		const self = this;
+		let xhr;
+		if (window.XMLHttpRequest) {
+		  	// code for IE7+, Firefox, Chrome, Opera, Safari
+		    xhr=new XMLHttpRequest();
+		} else{
+		    // code for IE6, IE5
+		    xhr=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xhr.onreadystatechange = function() {
+	  	  	if (xhr.readyState==4 && xhr.status==200) {
+	  	  		let responseText = xhr.responseText;
+	  			self.setState({visitorNum: responseText});
+	  	  	}
+		}
+		return xhr;
+	}
+
 
 	render() {
-		if (this.state.success.match(/^loading\.{0,3}$/)) {
-			return (
-				<div id="item">
-					<header className="title">星际争霸</header>
-					<p className="description">比赛说明
-						<br></br>击中“前”，“后”，“左”，“右”，“上”，“下”
-						<br></br>分别获得1，2，3，4，5，6分
-					</p>
-					<h1 className="target">第{this.state.order}关 目标：{this.state.target} 分 速度：{13-this.state.speed}</h1>
-					<h1 className="hit">已经击中 {this.state.num} 架UFO</h1>
-					<h1 className="score">一共获得 {this.state.score} 分</h1>
-					<h1 className="time">剩余时间: {this.state.min} 分 {this.state.sec} 秒 {this.state.success}</h1>
-					<h1 className="visitorNum">访问总人数: {this.state.visitorNum}</h1>
-					<div className="centerBlock">
-						<Universe3D></Universe3D>
-					</div>
-					{this.state.list.map((item,index) => (
-						<div key={"item_" + index} style={{
-								position:"absolute", 
-								top: window.innerHeight/2 * item[0] + window.innerHeight/4 + "px", 
-								left: window.innerWidth/2 * item[1] + window.innerHeight/4 + "px", 
-								perspective: 500 * item[2] + 500 + "px", 
-								height: "60px",
-								width: "60px",
-								transform: "scale(" + item[3] + ")"
-							}}>
-							<Universe3D id={"item_" + index} type={1 + parseInt(item[4]*3)} time={this.state.speed *item[5]+ this.state.speed} direction={index%2==0?"normal":"alternate"}></Universe3D>
-						</div>
-					))}
-				</div>
-			);
-		}else if(this.state.success == "fail"){
-			return (
-				<div className="fail">
-					<p> 挑战失败！
-						<br></br>
-						<button onClick={this.restart}>重新开始</button>
-					</p>
-				</div>
-			)
-		}
-		else if(this.state.success == "success"){
-			return (
-				<div className="success">
-					<p> 恭喜，挑战成功！
-						<br></br>
-						<button onClick={this.next}>闯下一关</button>
-						<button onClick={this.restart}>重新开始</button>
-					</p>
-				</div>
-			)
-		}
+		if (this.state.status.match(/^loading\.{0,3}$/)) 
+			return <Loading list={this.state.list} num={this.state.num} score={this.state.score} target={this.state.target} 
+		min={this.state.min} sec={this.state.sec} setTime={this.state.setTime} success={this.state.status} 
+		order={this.state.order} speed={this.state.speed} visitorNum={this.state.visitorNum}></Loading>
+		else if(this.state.status == "fail") return <Fail restart={this.restart} score={this.state.score}></Fail>
+		else if(this.state.status == "success") return <Success next={this.next} restart={this.restart} score={this.state.score}></Success>
 	}	
 }
 
