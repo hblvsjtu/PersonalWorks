@@ -122,111 +122,128 @@
  			if (htmlFlag) append += `${prop} = ${req.headers[prop]}\r\n`;
  		}
 
-
- 		// 获取文件流对象
- 		const raw = fs.createReadStream(base + clienturl);
- 		// 允许接收的编码类型
- 		let encoding = req.headers['accept-encoding']; //这里要全小写
- 		if (!encoding) {
- 			encoding = '';
- 		}
-
- 		// 获取请求头中的修改时间
- 		let ifModifiedSince = req.headers['if-modified-since']; //这里要全小写
-
- 		if (!ifModifiedSince) {
- 			ifModifiedSince = '';
- 		}
-
- 		// 获取请求头中的if-none-match
- 		let ifNoneMatch = req.headers['if-none-match']; //这里要全小写
-
- 		const gzip = zlib.createGzip();
- 		const deflate = zlib.createDeflate();
-
- 		// 利用时间戳和if-modified-since判断是否需要缓存
- 		// 判断文件的修改时间决定是否发送
-
- 		// fs.stat('./index.html', (err, stat) => {
- 		// 	// 获取文件最近一次的修改时间
- 		// 	let lastModified = stat.mtime.toUTCString();
- 		// 	console.log(`lastModified = ${lastModified}`);
- 		// 	if (lastModified == ifModifiedSince) {
-
- 		// 		// 没有过期
- 		// 		res.writeHead(304, 'Not Modified');
- 		// 	} else {
-
- 		// 		// 已经过期
- 		// 		res.setHeader('Last-Modified', lastModified);
- 		// 		if (/\bdeflate\b/.test(encoding)) {
- 		// 			res.writeHead(200, {
- 		// 				'Content-Encoding': 'deflate'
- 		// 			});
- 		// 			raw.pipe(deflate).pipe(res);
- 		// 		} else if (/\bgzip\b/.test(encoding)) {
- 		// 			res.writeHead(200, {
- 		// 				'Content-Encoding': 'gzip'
- 		// 			});
- 		// 			raw.pipe(gzip).pipe(res);
- 		// 		} else {
- 		// 			res.writeHead(200, {});
- 		// 			raw.pipe(res);
- 		// 		}
- 		// 	}
- 		// });
-
- 		// 利用ETag和hash值判断是否需要缓存
- 		fs.readFile(base + clienturl, (err, fd) => {
-
- 			if (err) {
+ 		fs.exists(base + clienturl, function(exists) {
+ 			if (!exists) {
+ 				console.log(base + clienturl + ' not exists.');
  				res.writeHeader(404, {
  					'content-type': 'text/html;charset="utf-8"'
  				});
  				res.write('<h1>404错误</h1><p>你要找的页面不存在</p>');
  				res.end();
  			} else {
- 				// 获取文件的hash值
- 				const hash = crypto.createHash('sha256');
- 				hash.update(fd);
- 				const hashsum = hash.digest('hex');
- 				console.log(`hash = ${hashsum}`);
- 				if (hashsum == ifNoneMatch) {
+ 				// 获取文件流对象
+ 				const option = {
+ 					flags: 'r',
+ 					encoding: 'utf8',
+ 					fd: null,
+ 					mode: 0666,
+ 					autoClose: true
+ 				};
+ 				const raw = fs.createReadStream(base + clienturl, option);
+ 				// 允许接收的编码类型
+ 				let encoding = req.headers['accept-encoding']; //这里要全小写
+ 				if (!encoding) {
+ 					encoding = '';
+ 				}
 
- 					// 没有过期
- 					console.log('没有过期');
- 					res.writeHead(304, 'Not Modified');
- 				} else {
- 					// 已经过期
- 					console.log('已经过期');
- 					const expires = new Date();
- 					expires.setTime(expires.getTime + 10 * 1000); //10秒
- 					res.setHeader('Expires', expires.toUTCString());
- 					res.setHeader('Cache-Control', 'max-age=' + 10 * 1000); //10秒
- 					res.setHeader('ETag', hashsum);
- 					if (/\bdeflate\b/.test(encoding)) {
- 						res.writeHead(200, {
- 							'Content-Encoding': 'deflate'
+ 				// 获取请求头中的修改时间
+ 				let ifModifiedSince = req.headers['if-modified-since']; //这里要全小写
+
+ 				if (!ifModifiedSince) {
+ 					ifModifiedSince = '';
+ 				}
+
+ 				// 获取请求头中的if-none-match
+ 				let ifNoneMatch = req.headers['if-none-match']; //这里要全小写
+
+ 				const gzip = zlib.createGzip();
+ 				const deflate = zlib.createDeflate();
+
+ 				// 利用时间戳和if-modified-since判断是否需要缓存
+ 				// 判断文件的修改时间决定是否发送
+
+ 				// fs.stat('./index.html', (err, stat) => {
+ 				// 	// 获取文件最近一次的修改时间
+ 				// 	let lastModified = stat.mtime.toUTCString();
+ 				// 	console.log(`lastModified = ${lastModified}`);
+ 				// 	if (lastModified == ifModifiedSince) {
+
+ 				// 		// 没有过期
+ 				// 		res.writeHead(304, 'Not Modified');
+ 				// 	} else {
+
+ 				// 		// 已经过期
+ 				// 		res.setHeader('Last-Modified', lastModified);
+ 				// 		if (/\bdeflate\b/.test(encoding)) {
+ 				// 			res.writeHead(200, {
+ 				// 				'Content-Encoding': 'deflate'
+ 				// 			});
+ 				// 			raw.pipe(deflate).pipe(res);
+ 				// 		} else if (/\bgzip\b/.test(encoding)) {
+ 				// 			res.writeHead(200, {
+ 				// 				'Content-Encoding': 'gzip'
+ 				// 			});
+ 				// 			raw.pipe(gzip).pipe(res);
+ 				// 		} else {
+ 				// 			res.writeHead(200, {});
+ 				// 			raw.pipe(res);
+ 				// 		}
+ 				// 	}
+ 				// });
+
+ 				// 利用ETag和hash值判断是否需要缓存
+ 				fs.readFile(base + clienturl, (err, fd) => {
+
+ 					if (err) {
+ 						res.writeHeader(404, {
+ 							'content-type': 'text/html;charset="utf-8"'
  						});
- 						raw.pipe(deflate).pipe(res);
- 					} else if (/\bgzip\b/.test(encoding)) {
- 						res.writeHead(200, {
- 							'Content-Encoding': 'gzip'
- 						});
- 						raw.pipe(gzip).pipe(res);
+ 						res.write('<h1>404错误</h1><p>你要找的页面不存在</p>');
+ 						res.end();
  					} else {
- 						res.writeHead(200, {});
- 						raw.pipe(res);
+ 						// 获取文件的hash值
+ 						const hash = crypto.createHash('sha256');
+ 						hash.update(fd);
+ 						const hashsum = hash.digest('hex');
+ 						console.log(`hash = ${hashsum}`);
+ 						if (hashsum == ifNoneMatch) {
+
+ 							// 没有过期
+ 							console.log('没有过期');
+ 							res.writeHead(304, 'Not Modified');
+ 						} else {
+ 							// 已经过期
+ 							console.log('已经过期');
+ 							const expires = new Date();
+ 							expires.setTime(expires.getTime + 10 * 1000); //10秒
+ 							res.setHeader('Expires', expires.toUTCString());
+ 							res.setHeader('Cache-Control', 'max-age=' + 10 * 1000); //10秒
+ 							res.setHeader('ETag', hashsum);
+ 							if (/\bdeflate\b/.test(encoding)) {
+ 								res.writeHead(200, {
+ 									'Content-Encoding': 'deflate'
+ 								});
+ 								raw.pipe(deflate).pipe(res);
+ 							} else if (/\bgzip\b/.test(encoding)) {
+ 								res.writeHead(200, {
+ 									'Content-Encoding': 'gzip'
+ 								});
+ 								raw.pipe(gzip).pipe(res);
+ 							} else {
+ 								res.writeHead(200, {});
+ 								raw.pipe(res);
+ 							}
+ 						}
  					}
+ 				})
+
+ 				// 记录访问日志和人数
+ 				// 验证文件的可读可写行
+ 				if (htmlFlag) {
+ 					writeLogAndNum(log, append, visitorNum);
  				}
  			}
- 		})
-
- 		// 记录访问日志和人数
- 		// 验证文件的可读可写行
- 		if (htmlFlag) {
- 			writeLogAndNum(log, append, visitorNum);
- 		}
+ 		});
  	}
 
  	res.setTimeout(10000);
