@@ -4,8 +4,16 @@ import ReactDOM from 'react-dom';
 import Loading from './asset/components/Loading.jsx';
 import Success from './asset/components/Success.jsx';
 import Fail from './asset/components/Fail.jsx';
-import Universe3Dbg from './asset/img/university.jpg';
-import Universe3Dbg_mobile from './asset/img/university_mobile.jpg';
+import Universe3Dbg1 from './asset/img/university1.jpg';
+import Universe3Dbg2 from './asset/img/university2.jpg';
+import Universe3Dbg3 from './asset/img/university3.jpg';
+import Universe3Dbg4 from './asset/img/university4.jpg';
+import Universe3Dbg5 from './asset/img/university5.jpg';
+import Universe3Dbg_mobile1 from './asset/img/university_mobile1.jpg';
+import Universe3Dbg_mobile2 from './asset/img/university_mobile2.jpg';
+import Universe3Dbg_mobile3 from './asset/img/university_mobile3.jpg';
+import Universe3Dbg_mobile4 from './asset/img/university_mobile4.jpg';
+import Universe3Dbg_mobile5 from './asset/img/university_mobile5.jpg';
 
 
 class App extends React.Component {
@@ -51,6 +59,7 @@ class App extends React.Component {
 		this.loginIn = this.loginIn.bind(this);
 		this.loginOut = this.loginOut.bind(this);
 		this.setStatus = this.setStatus.bind(this);
+		this.changeBG = this.changeBG.bind(this);
 	}
 
 
@@ -198,6 +207,7 @@ class App extends React.Component {
 			speed:12,
 			visitorNum:0,
 		});
+		this.changeBG(1);
 	    this.restartTimer();
 	}
 
@@ -219,6 +229,7 @@ class App extends React.Component {
           		let order = preState.order + 1;
           		let speed = preState.speed - 1;
           		let visitorNum = preState.visitorNum - 1;
+          		this.changeBG(order);
 				return {
 					list: arr,
 					num:0,
@@ -291,6 +302,25 @@ class App extends React.Component {
 		this.setState({name: "", password: "", mail: "", loginStatus: "fail"}); 
 	}
 
+	changeBG(order) {
+		let div = document.getElementById('bg');
+		if (window.innerWidth > 800) {
+			if(order === 1) div.style.background = `url("${Universe3Dbg1}")`;
+			if(order === 2) div.style.background = `url("${Universe3Dbg2}")`;
+			if(order === 3) div.style.background = `url("${Universe3Dbg3}")`;
+			if(order === 4) div.style.background = `url("${Universe3Dbg4}")`;
+			if(order === 5) div.style.background = `url("${Universe3Dbg5}")`;
+		}else {
+			if(order === 1) div.style.background = `url("${Universe3Dbg_mobile1}")`;
+			if(order === 2) div.style.background = `url("${Universe3Dbg_mobile2}")`;
+			if(order === 3) div.style.background = `url("${Universe3Dbg_mobile3}")`;
+			if(order === 4) div.style.background = `url("${Universe3Dbg_mobile4}")`;
+			if(order === 5) div.style.background = `url("${Universe3Dbg_mobile5}")`;
+		}
+		div.style.backgroundSize = "contain";
+		div.style.backgroundPosition = "center";
+	}
+
 	render() {
 		if (this.state.status.match(/(^loading\.{0,3}$)|(^pause$)/)) 
 			return <Loading list={this.state.list} num={this.state.num} score={this.state.score} target={this.state.target} 
@@ -315,6 +345,7 @@ class App extends React.Component {
 // };
 
 const div = document.createElement('div');
+div.id = "bg";
 div.style.display = "inline-block";
 div.style.position = "fixed";
 div.style.overflow = "hidden";
@@ -323,13 +354,11 @@ div.style.textAlign ="center";
 div.style.height = "100%";
 div.style.width = "100%";
 if (window.innerWidth > 800) {
-	div.style.background = `url("${Universe3Dbg}")`;
-	div.style.backgroundSize = "contain";
-	div.style.backgroundPosition = "center";
+	div.style.background = `url("${Universe3Dbg1}")`;
 }else {
-	div.style.background = `url("${Universe3Dbg_mobile}")`;
-	div.style.backgroundSize = "contain";
-	div.style.backgroundPosition = "center";
+	div.style.background = `url("${Universe3Dbg_mobile1}")`;
 }
+div.style.backgroundSize = "contain";
+div.style.backgroundPosition = "center";
 document.body.appendChild(div);
 ReactDOM.render(<App />, div);
