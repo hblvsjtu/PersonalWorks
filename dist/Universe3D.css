@@ -256,22 +256,22 @@
   left: 0;
   bottom: 0;
   right: 0;
-  width: 30rem;
-  height: 20rem;
+  width: 15rem;
+  height: 10rem;
   margin: auto;
-  padding: 20px 50px;
+  padding: 1rem 1rem;
   background: yellow;
   border-radius: 5px;
-  font-size: 2rem; }
+  font-size: 1rem; }
   .loginIn span, .loginUp span {
     float: left;
     margin-top: 10px; }
   .loginIn input, .loginUp input {
     float: left;
-    width: 30rem; }
+    width: 13rem; }
 
 .loginUp {
-  height: 30rem; }
+  height: 18rem; }
 
 .loginBtnArray {
   display: inline-block;
@@ -279,9 +279,10 @@
   text-align: center; }
 
 .loginBtn {
-  margin: 15px;
-  z-index: 4;
-  font-size: 2rem;
+  margin: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
+  font-size: 0.75rem;
   background: #00ddeb;
   -webkit-box-shadow: 0px 5px #028d96;
           box-shadow: 0px 5px #028d96;
