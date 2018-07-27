@@ -33,12 +33,21 @@ class App extends React.Component {
 			status: "loading",
 			order: 1,
 			speed:12,
-			visitorNum:0
+			visitorNum:0,
+			name: "",
+			password: "",
+			mail: "",
+			loginStatus: "fail"
 		};
 		this.selected={};
 		this.restart = this.restart.bind(this);
 		this.next = this.next.bind(this);
+		this.pause = this.pause.bind(this);
+		this.reload = this.reload.bind(this);
 		this.createXHR = this.createXHR.bind(this);
+		this.updateUserInfo = this.updateUserInfo.bind(this);
+		this.loginIn = this.loginIn.bind(this);
+		this.loginOut = this.loginOut.bind(this);
 		this.setStatus = this.setStatus.bind(this);
 	}
 
@@ -184,7 +193,7 @@ class App extends React.Component {
 			status: "loading",
 			order: 1,
 			speed:12,
-			visitorNum:0
+			visitorNum:0,
 		});
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
@@ -222,7 +231,7 @@ class App extends React.Component {
 					status: "loading",
 					order: order,
 					speed: speed,
-					visitorNum:visitorNum
+					visitorNum:visitorNum,
 				};
           	})
 		clearInterval(this.timerID);
@@ -230,6 +239,25 @@ class App extends React.Component {
 	    () => this.FreeUFO(),
 	    1000
 	  );
+	}
+
+	// pause 
+	pause() {
+		this.setState({status: "pause"});
+		clearInterval(this.timerID1);
+		clearInterval(this.timerID2);
+	}
+
+	reload() {
+		this.setState({status: "loading"});
+		this.timerID1 = setInterval(
+	    	() => this.setStatus(),
+	    	1000
+	  	);
+	  	this.timerID2 = setInterval(
+	    	() => this.FreeUFO(),
+	    	1000
+	  	);
 	}
 
 	// create the only one XMLHttpReaquest
@@ -252,12 +280,27 @@ class App extends React.Component {
 		return xhr;
 	}
 
+	updateUserInfo(name, password, mail) {
+		this.setState({name: name, password: password, mail: mail}); 
+		console.log(name, password, mail);
+	}
+
+	loginIn(loginStatus) {
+		this.setState({loginStatus: loginStatus}); 
+		this.reload();
+	}
+
+	loginOut() {
+		this.setState({name: "", password: "", mail: "", loginStatus: "fail"}); 
+	}
 
 	render() {
-		if (this.state.status.match(/^loading\.{0,3}$/)) 
+		if (this.state.status.match(/(^loading\.{0,3}$)|(^pause$)/)) 
 			return <Loading list={this.state.list} num={this.state.num} score={this.state.score} target={this.state.target} 
-		min={this.state.min} sec={this.state.sec} setTime={this.state.setTime} success={this.state.status} 
-		order={this.state.order} speed={this.state.speed} visitorNum={this.state.visitorNum}></Loading>
+		min={this.state.min} sec={this.state.sec} setTime={this.state.setTime} status={this.state.status} 
+		order={this.state.order} speed={this.state.speed} visitorNum={this.state.visitorNum}
+		loginIn={this.loginIn} loginOut={this.loginOut} name={this.state.name} password={this.state.password} mail={this.state.mail} loginStatus={this.state.loginStatus}
+		updateUserInfo={this.updateUserInfo} pause={this.pause} reload={this.reload}></Loading>
 		else if(this.state.status == "fail") return <Fail restart={this.restart} score={this.state.score}></Fail>
 		else if(this.state.status == "success") return <Success next={this.next} restart={this.restart} score={this.state.score}></Success>
 	}	

@@ -240,6 +240,73 @@
  * @version V0.0.1
  * @description: item style
  */
+.loginOuter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 3; }
+
+.loginIn, .loginUp {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 400px;
+  height: 250px;
+  margin: auto;
+  padding: 20px 50px;
+  background: yellow;
+  border-radius: 5px;
+  font-size: 2rem; }
+  .loginIn span, .loginUp span {
+    float: left;
+    margin-top: 10px; }
+  .loginIn input, .loginUp input {
+    float: left;
+    width: 400px; }
+
+.loginUp {
+  height: 430px; }
+
+.loginBtnArray {
+  display: inline-block;
+  width: 100%;
+  text-align: center; }
+
+.loginBtn {
+  margin: 15px;
+  z-index: 4;
+  background: #00ddeb;
+  -webkit-box-shadow: 0px 5px #028d96;
+          box-shadow: 0px 5px #028d96;
+  color: white;
+  border-radius: 3px;
+  text-align: center;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  /* Imitate a pressed effect for buttons */ }
+  .loginBtn:hover {
+    background: #01d1de;
+    -webkit-box-shadow: 0px 4px #006066;
+            box-shadow: 0px 4px #006066;
+    color: white; }
+  .loginBtn:active {
+    top: 4px;
+    -webkit-box-shadow: 0px 0px #d3545d;
+            box-shadow: 0px 0px #d3545d; }
+
+/**
+ * 
+ * @authors Lvhongbin (hblvsjtu@163.com)
+ * @date    2018-07-22 09:29:54
+ * @version V0.0.1
+ * @description: item style
+ */
 .title {
   display: inline-block;
   position: absolute;
@@ -300,8 +367,7 @@
   position: absolute;
   color: yellow;
   top: 0;
-  right: 10px;
-  width: 200px;
+  right: 25px;
   font-size: 1rem;
   line-height: 1.2em;
   text-align: left; }
@@ -317,6 +383,44 @@
           perspective: 1000px;
   -webkit-transform: scale(2);
           transform: scale(2); }
+
+.login {
+  position: absolute;
+  z-index: 2;
+  top: 2rem;
+  right: 10px;
+  height: 20px; }
+
+.btn {
+  float: left;
+  width: 90px;
+  height: 30px;
+  margin: 10px;
+  font-size: 1rem;
+  background: #00ddeb;
+  -webkit-box-shadow: 0px 5px #028d96;
+          box-shadow: 0px 5px #028d96;
+  color: white;
+  border-radius: 3px;
+  text-align: center;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  /* Imitate a pressed effect for buttons */ }
+  .btn:hover {
+    background: #01d1de;
+    -webkit-box-shadow: 0px 4px #006066;
+            box-shadow: 0px 4px #006066;
+    color: white; }
+  .btn:active {
+    top: 4px;
+    -webkit-box-shadow: 0px 0px #d3545d;
+            box-shadow: 0px 0px #d3545d; }
+
+.welcome {
+  color: red;
+  font-size: 1rem;
+  line-height: 1.2em;
+  margin-right: 25px; }
 
 /**
  * 

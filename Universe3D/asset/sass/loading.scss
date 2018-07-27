@@ -74,8 +74,7 @@
 	position: absolute;
 	color: yellow;
 	top: 0;
-	right: 10px; 
-	width: 200px;
+	right: 25px; 
 	font-size: 1rem;
 	line-height: 1.2em;
 	text-align: left; 
@@ -90,4 +89,43 @@
 	margin: auto;
 	perspective: 1000px; 
 	transform: scale(2);
+}
+
+.login {
+	position: absolute;
+	z-index:2;
+	top: 2rem;
+	right: 10px;
+	height: 20px;
+}
+
+.btn {
+	float: left;
+	width: 90px;
+	height: 30px;
+	margin: 10px;
+	font-size: 1rem;
+	background: #00ddeb;
+	box-shadow: 0px 5px #028d96;
+	color: white;
+	border-radius: 3px;
+	text-align: center;
+	transition: all 0.2s ease;
+	&:hover {
+	  	background: #01d1de;
+			box-shadow: 0px 4px #006066;
+			color: white;
+	}
+	/* Imitate a pressed effect for buttons */
+	&:active {
+	  	top: 4px;
+		  	box-shadow: 0px 0px #d3545d;
+	}
+}
+
+.welcome {
+	color: red;
+	font-size: 1rem;
+	line-height: 1.2em;
+	margin-right: 25px;
 }

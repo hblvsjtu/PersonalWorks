@@ -39,12 +39,45 @@
  			if (err) return console.log(err);
  			let num = data.toString().match(/\b\d+/);
  			num = +num + 1;
+ 			res.setHeader('Access-Control-Allow-Origin', '*'); //支持全域名访问，不安全，部署后需要固定限制为客户端网址
+ 			res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,DELETE'); //支持的http 动作
+ 			res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,content-type'); //响应头 请按照自己需求添加。
  			res.writeHead(200, {
  				'Content-Type': 'text/plain;charset="utf-8"'
  			})
  			res.write(num.toString());
  			res.end();
  		});
+ 	} else if (clienturl.match(/^\/loginIn\??/)) {
+
+ 		// 登陆
+ 		let loginStatus = "fail";
+ 		let paras = queryStringPares(clienturl, 9);
+ 		console.log("paras = ", paras);
+ 		if (paras.name === "lvhongbin" && paras.password === "12345687") {
+ 			loginStatus = "success";
+ 		}
+ 		res.setHeader('Access-Control-Allow-Origin', '*'); //支持全域名访问，不安全，部署后需要固定限制为客户端网址
+ 		res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,DELETE'); //支持的http 动作
+ 		res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,content-type'); //响应头 请按照自己需求添加。
+ 		res.writeHead(200, {
+ 			'Content-Type': 'text/plain;charset="utf-8"'
+ 		})
+ 		res.write(loginStatus);
+ 		res.end();
+ 	} else if (clienturl.match(/^\/loginUp\??/)) {
+
+ 		// 注册
+ 		let paras = queryStringPares(clienturl, 9);
+ 		console.log("paras = ", paras);
+ 		res.setHeader('Access-Control-Allow-Origin', '*'); //支持全域名访问，不安全，部署后需要固定限制为客户端网址
+ 		res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,DELETE'); //支持的http 动作
+ 		res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,content-type'); //响应头 请按照自己需求添加。
+ 		res.writeHead(200, {
+ 			'Content-Type': 'text/plain;charset="utf-8"'
+ 		})
+ 		res.write("success");
+ 		res.end();
  	} else {
  		// 获取所有请求头信息
  		console.log(`Printing Header ...`);
@@ -170,3 +203,18 @@
  server.listen(8080, () => {
  	console.log('i am listening!');
  });
+
+ // queryString.parse() 
+ function queryStringPares(clienturl, num) {
+ 	let str = clienturl.slice(num);
+ 	let set = str.split("&");
+ 	let paras = {};
+ 	let key = "";
+ 	let value = "";
+ 	set.forEach((item, index) => {
+ 		key = item.split("=")[0];
+ 		value = item.split("=")[1];
+ 		paras[key] = value;
+ 	});
+ 	return paras;
+ }
