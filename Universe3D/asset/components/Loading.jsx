@@ -49,7 +49,10 @@ class Loading extends React.Component {
 				document.getElementById('success_dilog').innerHTML='';
 		}, false);
 		document.getElementById(`login${type}Cancel`).type = 'button';
-		document.getElementById(`login${type}Cancel`).addEventListener("click", () => {document.getElementById('success_dilog').innerHTML=''}, false);
+		document.getElementById(`login${type}Cancel`).addEventListener("click", () => {
+			document.getElementById('success_dilog').innerHTML='';
+			this.props.reload();
+		}, false);
 	}
 
 	// create the only one XMLHttpReaquest
@@ -84,7 +87,7 @@ class Loading extends React.Component {
 			}else {
 				loginPart = (
 					<div>
-						<button className="btn" onClick={this.login_in} >登陆</button>
+						<button className="btn" onClick={this.login_in} >登陆</button><br></br>
 						<button className="btn" onClick={this.login_up} >注册</button>
 					</div>
 				);

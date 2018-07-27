@@ -41,6 +41,8 @@ class App extends React.Component {
 		};
 		this.selected={};
 		this.restart = this.restart.bind(this);
+		this.restartTimer = this.restartTimer.bind(this);
+		this.stopTimer = this.stopTimer.bind(this);
 		this.next = this.next.bind(this);
 		this.pause = this.pause.bind(this);
 		this.reload = this.reload.bind(this);
@@ -53,52 +55,14 @@ class App extends React.Component {
 
 
 	componentWillUnmount() {
-	  clearInterval(this.timerID1);
-	  clearInterval(this.timerID2);
-	  clearInterval(this.timerID3);
+	  this.stopTimer();
 	}
 
 	componentDidMount() {
 		this.xhr = this.createXHR();
-		this.timerID1 = setInterval(
-	    	() => this.setStatus(),
-	    	1000
-	  	);
-	  	this.timerID2 = setInterval(
-	    	() => this.FreeUFO(),
-	    	1000
-	  	);
-	  	// 每10秒获取一次总访问人数
-	  	this.xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
-		this.xhr.send();
-	  	this.timerID3 = setInterval(
-	    	() => {
-	    		this.xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
-		  		this.xhr.send();
-	    	},
-	    	10000
-	  	);
+		this.restartTimer();
 	}
 	
-	// free the UFO
-	FreeUFO() {
-		// 释放飞机
-	  	this.setState(
-          	preState => {
-	          	if(!preState.list.length == 90) {
-	          		let a0 = Math.random();
-	          		let a1 = Math.random();
-	          		let a2 = Math.random();
-	          		let a3 = Math.random();
-	          		let a4 = Math.random();
-	          		let a5 = Math.random();
-	          		let arr = [a0,a1,a2,a3,a4,a5];
-	          		return preState.list.push(arr);
-	          	}
-          	}
-	  	);
-	}
-
 
 	// judge the status and calculate the score
 	setStatus() {
@@ -170,6 +134,45 @@ class App extends React.Component {
 	  	}
 	}
 
+	// free the UFO
+	FreeUFO() {
+		// 释放飞机
+	  	this.setState(
+          	preState => {
+	          	if(!preState.list.length == 90) {
+	          		let a0 = Math.random();
+	          		let a1 = Math.random();
+	          		let a2 = Math.random();
+	          		let a3 = Math.random();
+	          		let a4 = Math.random();
+	          		let a5 = Math.random();
+	          		let arr = [a0,a1,a2,a3,a4,a5];
+	          		return preState.list.push(arr);
+	          	}
+          	}
+	  	);
+	}
+
+	// create the only one XMLHttpReaquest
+	createXHR() {
+		const self = this;
+		let xhr;
+		if (window.XMLHttpRequest) {
+		  	// code for IE7+, Firefox, Chrome, Opera, Safari
+		    xhr=new XMLHttpRequest();
+		} else{
+		    // code for IE6, IE5
+		    xhr=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xhr.onreadystatechange = function() {
+	  	  	if (xhr.readyState==4 && xhr.status==200) {
+	  	  		let responseText = xhr.responseText;
+	  			self.setState({visitorNum: responseText});
+	  	  	}
+		}
+		return xhr;
+	}
+
 	// restart the game
 	restart() {
 		let a0,a1,a2,a3,a4,a5,arr = [];
@@ -195,11 +198,7 @@ class App extends React.Component {
 			speed:12,
 			visitorNum:0,
 		});
-		clearInterval(this.timerID);
-		this.timerID = setInterval(
-	    () => this.FreeUFO(),
-	    1000
-	  );
+	    this.restartTimer();
 	}
 
 	// Next chanllege
@@ -234,22 +233,23 @@ class App extends React.Component {
 					visitorNum:visitorNum,
 				};
           	})
-		clearInterval(this.timerID);
-		this.timerID = setInterval(
-	    () => this.FreeUFO(),
-	    1000
-	  );
+		this.restartTimer();
 	}
 
 	// pause 
 	pause() {
 		this.setState({status: "pause"});
-		clearInterval(this.timerID1);
-		clearInterval(this.timerID2);
+		this.stopTimer();
+		
 	}
 
 	reload() {
 		this.setState({status: "loading"});
+		this.restartTimer();
+		
+	}
+
+	restartTimer() {
 		this.timerID1 = setInterval(
 	    	() => this.setStatus(),
 	    	1000
@@ -258,27 +258,24 @@ class App extends React.Component {
 	    	() => this.FreeUFO(),
 	    	1000
 	  	);
+	  	// 每10秒获取一次总访问人数
+	  	this.xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
+		this.xhr.send();
+	  	this.timerID3 = setInterval(
+	    	() => {
+	    		this.xhr.open("GET", "http://hblvsjtu.picp.io:51688/visitorNum");
+		  		this.xhr.send();
+	    	},
+	    	10000
+	  	);
 	}
 
-	// create the only one XMLHttpReaquest
-	createXHR() {
-		const self = this;
-		let xhr;
-		if (window.XMLHttpRequest) {
-		  	// code for IE7+, Firefox, Chrome, Opera, Safari
-		    xhr=new XMLHttpRequest();
-		} else{
-		    // code for IE6, IE5
-		    xhr=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xhr.onreadystatechange = function() {
-	  	  	if (xhr.readyState==4 && xhr.status==200) {
-	  	  		let responseText = xhr.responseText;
-	  			self.setState({visitorNum: responseText});
-	  	  	}
-		}
-		return xhr;
+	stopTimer() {
+		clearInterval(this.timerID1);
+		clearInterval(this.timerID2);
+		clearInterval(this.timerID3);
 	}
+
 
 	updateUserInfo(name, password, mail) {
 		this.setState({name: name, password: password, mail: mail}); 
@@ -301,8 +298,13 @@ class App extends React.Component {
 		order={this.state.order} speed={this.state.speed} visitorNum={this.state.visitorNum}
 		loginIn={this.loginIn} loginOut={this.loginOut} name={this.state.name} password={this.state.password} mail={this.state.mail} loginStatus={this.state.loginStatus}
 		updateUserInfo={this.updateUserInfo} pause={this.pause} reload={this.reload}></Loading>
-		else if(this.state.status == "fail") return <Fail restart={this.restart} score={this.state.score}></Fail>
-		else if(this.state.status == "success") return <Success next={this.next} restart={this.restart} score={this.state.score}></Success>
+		else if(this.state.status == "fail") {
+			this.stopTimer();
+			return <Fail restart={this.restart} score={this.state.score}></Fail>}
+		else if(this.state.status == "success") {
+			this.stopTimer();
+			return <Success next={this.next} restart={this.restart} score={this.state.score}></Success>
+		} 
 	}	
 }
 
