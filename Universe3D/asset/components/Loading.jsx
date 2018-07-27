@@ -70,6 +70,7 @@ class Loading extends React.Component {
 	  	  	if (xhr.readyState==4 && xhr.status==200) {
 	  	  		let responseText = xhr.responseText;
 	  	  		if (responseText === "fail") {alert("用户名或着密码错误，请重新登录！")};
+	  	  		if (responseText === "exist") {alert("用户名已存在，请重新注册！")};
 	  			self.props.loginIn(responseText);
 	  	  	}
 		}

@@ -15,6 +15,15 @@
  const base = './dist';
  const log = './server/log.txt';
  const visitorNum = './server/visitorNum.txt';
+ const MongoClient = require('mongodb').MongoClient;
+ const assert = require('assert');
+
+
+ // Connection URL
+ const mongodbURL = 'mongodb://localhost:27017';
+
+ // Database Name
+ const dbName = 'myproject';
 
  // 服务端示例
  // 对每一个请求运行 gzip 操作的成本是十分高昂的.
@@ -39,14 +48,7 @@
  			if (err) return console.log(err);
  			let num = data.toString().match(/\b\d+/);
  			num = +num + 1;
- 			res.setHeader('Access-Control-Allow-Origin', '*'); //支持全域名访问，不安全，部署后需要固定限制为客户端网址
- 			res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,DELETE'); //支持的http 动作
- 			res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,content-type'); //响应头 请按照自己需求添加。
- 			res.writeHead(200, {
- 				'Content-Type': 'text/plain;charset="utf-8"'
- 			})
- 			res.write(num.toString());
- 			res.end();
+ 			ACAORes(res, num.toString());
  		});
  	} else if (clienturl.match(/^\/loginIn\??/)) {
 
@@ -54,30 +56,64 @@
  		let loginStatus = "fail";
  		let paras = queryStringPares(clienturl, 9);
  		console.log("paras = ", paras);
- 		if (paras.name === "lvhongbin" && paras.password === "12345687") {
- 			loginStatus = "success";
- 		}
- 		res.setHeader('Access-Control-Allow-Origin', '*'); //支持全域名访问，不安全，部署后需要固定限制为客户端网址
- 		res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,DELETE'); //支持的http 动作
- 		res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,content-type'); //响应头 请按照自己需求添加。
- 		res.writeHead(200, {
- 			'Content-Type': 'text/plain;charset="utf-8"'
- 		})
- 		res.write(loginStatus);
- 		res.end();
+ 		MongoClient.connect(mongodbURL, {
+ 			useNewUrlParser: true
+ 		}, function(err, client) {
+ 			if (err) return console.log("err = ", err);
+ 			console.log("Connected successfully to server");
+ 			const db = client.db(dbName);
+ 			const collection = db.collection('documents');
+ 			// Find some documents
+ 			collection.findOne({
+ 				"name": paras.name,
+ 				"password": paras.password
+ 			}, function(err, docs) {
+ 				if (docs) {
+ 					console.log("该用户已存在,可以登录");
+ 					ACAORes(res, "success");
+ 				} else {
+ 					console.log("该用户不存在，不可以登陆");
+ 					ACAORes(res, "fail");
+ 				}
+ 				client.close();
+ 			});
+ 		});
  	} else if (clienturl.match(/^\/loginUp\??/)) {
 
  		// 注册
  		let paras = queryStringPares(clienturl, 9);
  		console.log("paras = ", paras);
- 		res.setHeader('Access-Control-Allow-Origin', '*'); //支持全域名访问，不安全，部署后需要固定限制为客户端网址
- 		res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,DELETE'); //支持的http 动作
- 		res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,content-type'); //响应头 请按照自己需求添加。
- 		res.writeHead(200, {
- 			'Content-Type': 'text/plain;charset="utf-8"'
- 		})
- 		res.write("success");
- 		res.end();
+ 		MongoClient.connect(mongodbURL, {
+ 			useNewUrlParser: true
+ 		}, function(err, client) {
+ 			if (err) console.log("err = ", err);
+ 			assert.equal(null, err);
+ 			console.log("Connected successfully to server");
+ 			const db = client.db(dbName);
+ 			const collection = db.collection('documents');
+ 			// Find some documents
+ 			collection.findOne({
+ 				"name": paras.name
+ 			}, function(err, docs) {
+ 				if (docs) {
+ 					console.log("该用户已存在");
+ 					ACAORes(res, "exist");
+ 				} else {
+ 					console.log("该用户不存在，可以注册");
+ 					// 插入
+ 					insertDocuments(db, [paras], function() {
+ 						client.close();
+ 					});
+ 					// 查找
+ 					findDocuments(db, function() {
+ 						client.close();
+ 					});
+ 					ACAORes(res, "success");
+ 				}
+ 				client.close();
+ 			});
+ 		});
+
  	} else {
  		// 获取所有请求头信息
  		console.log(`Printing Header ...`);
@@ -193,7 +229,7 @@
  		}
  	}
 
- 	res.setTimeout(1000);
+ 	res.setTimeout(10000);
  	res.on('timeout', () => {
  		console.log('oh no, timeout!');
  		res.end();
@@ -217,4 +253,87 @@
  		paras[key] = value;
  	});
  	return paras;
+ }
+
+ // 增
+ const insertDocuments = function(db, data, callback) {
+ 	// Get the documents collection
+ 	const collection = db.collection('documents');
+ 	// Insert some documents
+ 	collection.insertMany(data, function(err, result) {
+ 		console.log("Inserted 3 documents into the collection");
+ 		callback(result);
+ 	});
+ }
+
+ // 删
+ const removeDocument = function(db, callback) {
+ 	// Get the documents collection
+ 	const collection = db.collection('documents');
+ 	// Delete document where a is 3
+ 	collection.deleteOne({
+ 		a: 3
+ 	}, function(err, result) {
+ 		// assert.equal(err, null);
+ 		// assert.equal(1, result.result.n);
+ 		console.log("Removed the document with the field a equal to 3");
+ 		callback(result);
+ 	});
+ }
+
+ // 改
+ const updateDocument = function(db, callback) {
+ 	// Get the documents collection
+ 	const collection = db.collection('documents');
+ 	// Update document where a is 2, set b equal to 1
+ 	collection.updateOne({
+ 		a: 2
+ 	}, {
+ 		$set: {
+ 			b: 1
+ 		}
+ 	}, function(err, result) {
+ 		// assert.equal(err, null);
+ 		// assert.equal(1, result.result.n);
+ 		console.log("Updated the document with the field a equal to 2");
+ 		callback(result);
+ 	});
+ }
+
+
+ // 查
+ const findDocuments = function(db, callback) {
+ 	// Get the documents collection
+ 	const collection = db.collection('documents');
+ 	// Find some documents
+ 	collection.find({}).toArray(function(err, docs) {
+ 		// assert.equal(err, null);
+ 		console.log("Found the following records");
+ 		console.log(docs);
+ 		callback(docs);
+ 	});
+ }
+
+ // 提升性能
+ const indexCollection = function(db, callback) {
+ 	db.collection('documents').createIndex({
+ 			"a": 1
+ 		},
+ 		null,
+ 		function(err, results) {
+ 			console.log(results);
+ 			callback();
+ 		}
+ 	);
+ };
+
+ const ACAORes = function(res, str) {
+ 	res.setHeader('Access-Control-Allow-Origin', '*'); //支持全域名访问，不安全，部署后需要固定限制为客户端网址
+ 	res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,DELETE'); //支持的http 动作
+ 	res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,content-type'); //响应头 请按照自己需求添加。
+ 	res.writeHead(200, {
+ 		'Content-Type': 'text/plain;charset="utf-8"'
+ 	})
+ 	res.write(str);
+ 	res.end();
  }

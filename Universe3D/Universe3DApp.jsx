@@ -300,10 +300,10 @@ class App extends React.Component {
 		updateUserInfo={this.updateUserInfo} pause={this.pause} reload={this.reload}></Loading>
 		else if(this.state.status == "fail") {
 			this.stopTimer();
-			return <Fail restart={this.restart} score={this.state.score}></Fail>}
+			return <Fail restart={this.restart} score={this.state.score} loginStatus={this.state.loginStatus} name={this.state.name}></Fail>}
 		else if(this.state.status == "success") {
 			this.stopTimer();
-			return <Success next={this.next} restart={this.restart} score={this.state.score}></Success>
+			return <Success next={this.next} restart={this.restart} score={this.state.score} loginStatus={this.state.loginStatus} name={this.state.name}></Success>
 		} 
 	}	
 }
