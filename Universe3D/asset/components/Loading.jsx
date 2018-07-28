@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Universe3D from './Universe3D.jsx';
 import Login from './Login.jsx';
 import '../sass/loading.scss';
+import bee from '../audio/beep.mp3';
+import boom from '../audio/boom.mp3';
 
 class Loading extends React.Component {
 	constructor(props) {
@@ -96,6 +98,8 @@ class Loading extends React.Component {
 		}
 		return (
 			<div id="item">
+				<audio id="bee" src={bee} preload="auto"></audio>
+				<audio id="boom" src={boom} preload="auto"></audio>
 				<header className="title">星际争霸</header>
 				<p className="description">比赛说明
 					<br></br>击中“前”，“后”，“左”，“右”，“上”，“下”

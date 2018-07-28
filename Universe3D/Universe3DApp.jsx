@@ -68,7 +68,9 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.xhr = this.createXHR();
-		this.restartTimer();
+		window.onload = this.restartTimer;
+		this.bee = document.getElementById('bee');
+		this.boom = document.getElementById('boom');
 	}
 	
 
@@ -95,12 +97,69 @@ class App extends React.Component {
 
 	  	// 事件代理
 	  	if(this.state.status.match(/^loading\.{0,3}$/)) {
+
+  		    // // 创建新的音频上下文接口
+  		    // var audioCtx = new AudioContext();
+
+  		    // // 发出的声音频率数据，表现为音调的高低
+  		    // var arrFrequency = [196.00, 220.00, 246.94, 261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77, 1046.50];
+
+  		    // // 音调依次递增或者递减处理需要的参数
+  		    // var start = 0, direction = 1;
 	  		let f = (e) => {
 			    let tar = e.target.id;
 			  	if(tar.match(/^item_\d+\w$/)) {
 			  		if(!this.selected.hasOwnProperty(tar)) {
 			  			this.selected[tar] = tar;
-			  			document.getElementById(tar.slice(0,-1)).style.display = "none";
+		  				// 按钮元素
+		  			   	document.getElementById(tar.slice(0,-1)).style.display = "none";
+		  			   	let face = tar.slice(-1,tar.length);
+		  			   	if (face == "a" || face == "b" || face == "c") {
+		  			   		this.bee.load();
+		  			   		this.bee.play();
+		  			   	}
+		  			  	if (face == "c" || face == "d" || face == "e") {
+		  			  		this.boom.load();
+		  			  		this.boom.play();
+		  			  	}
+		  			   	// // 当前频率
+		  			   	// if (!window.AudioContext) { 
+		  			   	//         console.log('当前浏览器不支持Web Audio API');
+		  			   	//         return;
+		  			   	// }else {
+		  			   	// 	var frequency = arrFrequency[start];
+		  			   	// 	// 如果到头，改变音调的变化规则（增减切换）
+		  			   	// 	if (!frequency) {
+		  			   	// 	    direction = -1 * direction;
+		  			   	// 	    start = start + 2 * direction;
+		  			   	// 	    frequency = arrFrequency[start];
+		  			   	// 	}
+		  			   	// 	// 改变索引，下一次hover时候使用
+		  			   	// 	start = start + direction;
+
+		  			   	// 	// 创建一个OscillatorNode, 它表示一个周期性波形（振荡），基本上来说创造了一个音调
+		  			   	// 	var oscillator = audioCtx.createOscillator();
+		  			   	// 	// 创建一个GainNode,它可以控制音频的总音量
+		  			   	// 	var gainNode = audioCtx.createGain();
+		  			   	// 	// 把音量，音调和终节点进行关联
+		  			   	// 	oscillator.connect(gainNode);
+		  			   	// 	// audioCtx.destination返回AudioDestinationNode对象，表示当前audio context中所有节点的最终节点，一般表示音频渲染设备
+		  			   	// 	gainNode.connect(audioCtx.destination);
+		  			   	// 	// 指定音调的类型，其他还有square|triangle|sawtooth
+		  			   	// 	oscillator.type = 'sine';
+		  			   	// 	// 设置当前播放声音的频率，也就是最终播放声音的调调
+		  			   	// 	oscillator.frequency.value = frequency;
+		  			   	// 	// 当前时间设置音量为0
+		  			   	// 	gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+		  			   	// 	// 0.01秒后音量为1
+		  			   	// 	gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.01);
+		  			   	// 	// 音调从当前时间开始播放
+		  			   	// 	oscillator.start(audioCtx.currentTime);
+		  			   	// 	// 1秒内声音慢慢降低，是个不错的停止声音的方法
+		  			   	// 	gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1);
+		  			   	// 	// 1秒后完全停止声音
+		  			   	// 	oscillator.stop(audioCtx.currentTime + 1);
+		  			   	// }   
 			  			this.setState(preState => {
 			  				let number = preState.num + 1 ; 
 				  			let face = tar.slice(-1,tar.length);
@@ -137,8 +196,14 @@ class App extends React.Component {
 			  		}
 			  	}
 		    }
-	  		document.getElementById("item").addEventListener('touchstart',f, true);
-		    document.getElementById("item").addEventListener('click',f, true);
+
+		    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+		        document.getElementById("item").addEventListener('touchstart',f, true);
+		        console.log("这是移动端");
+		    } else {
+		        document.getElementById("item").addEventListener('click',f, true);
+		        console.log("这是Web端");
+	  		}
 	  	}
 	}
 
@@ -345,7 +410,7 @@ if (window.innerWidth > 800) {
 	if(order === 4) div.style.background = `url("${Universe3Dbg_mobile4}")`;
 	if(order === 5) div.style.background = `url("${Universe3Dbg_mobile5}")`;
 }
-div.style.backgroundSize = "contain";
-div.style.backgroundPosition = "center center";
+div.style.backgroundSize = "cover";
+div.style.backgroundPosition = "center";
 document.body.appendChild(div);
 ReactDOM.render(<App />, div);

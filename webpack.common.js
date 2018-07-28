@@ -15,7 +15,7 @@ module.exports = {
 
   output: {
     path: DIST_PATH,
-    filename: '[name].bundle.js'
+    filename: '[name].[hash:8].bundle.js'
   },
 
   module: {
@@ -28,7 +28,7 @@ module.exports = {
         }
       }
     }, {
-      test: /\.(png|svg|jpg|gif)$/,
+      test: /\.(png|svg|jpg|gif|mp3|jpeg)$/,
       use: [
         'file-loader'
       ]

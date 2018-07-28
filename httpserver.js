@@ -139,7 +139,7 @@
  					mode: 0666,
  					autoClose: true
  				};
- 				const raw = fs.createReadStream(base + clienturl, option);
+ 				const raw = fs.createReadStream(base + clienturl);
  				// 允许接收的编码类型
  				let encoding = req.headers['accept-encoding']; //这里要全小写
  				if (!encoding) {
@@ -219,6 +219,7 @@
  							res.setHeader('Expires', expires.toUTCString());
  							res.setHeader('Cache-Control', 'max-age=' + 10 * 1000); //10秒
  							res.setHeader('ETag', hashsum);
+ 							// && !clienturl.match(/(.jpg)$|(.png)$/)
  							if (/\bdeflate\b/.test(encoding)) {
  								res.writeHead(200, {
  									'Content-Encoding': 'deflate'
